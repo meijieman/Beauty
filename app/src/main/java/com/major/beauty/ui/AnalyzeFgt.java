@@ -1,7 +1,7 @@
 package com.major.beauty.ui;
 
 import com.major.beauty.R;
-import com.major.beauty.base.BaseFgt;
+import com.major.beauty.base.BaseFragment;
 
 /**
  * Desc: TODO
@@ -11,7 +11,7 @@ import com.major.beauty.base.BaseFgt;
  * ProjectName: Beauty
  * Date: 2019/6/3 12:42
  */
-public class AnalyzeFgt extends BaseFgt {
+public class AnalyzeFgt extends BaseFragment {
 
 
     @Override

@@ -1,11 +1,12 @@
 package com.major.beauty.ui;
 
-import android.support.v7.widget.RecyclerView;
+import android.content.Intent;
+import android.view.View;
 
 import com.major.beauty.R;
-import com.major.beauty.base.BaseFgt;
+import com.major.beauty.base.BaseFragment;
 
-import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Desc: TODO
@@ -15,11 +16,7 @@ import butterknife.BindView;
  * ProjectName: Beauty
  * Date: 2019/6/3 12:42
  */
-public class ManagementFgt extends BaseFgt {
-
-    @BindView(R.id.rv_management)
-    RecyclerView mRecyclerView;
-
+public class ManagementFgt extends BaseFragment {
 
     @Override
     protected int getRootView() {
@@ -28,6 +25,20 @@ public class ManagementFgt extends BaseFgt {
 
     @Override
     protected void init() {
-        mRecyclerView.setAdapter();
+
+    }
+
+    @OnClick({R.id.btn_management_customers, R.id.btn_management_products})
+    void onClick(View view) {
+        switch(view.getId()) {
+            case R.id.btn_management_customers:
+                startActivity(new Intent(mActivity, CustomersActivity.class));
+                break;
+            case R.id.btn_management_products:
+
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -1,15 +1,12 @@
-package com.major.beauty;
+package com.major.beauty.ui;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
+import com.major.beauty.R;
 import com.major.beauty.base.BaseActivity;
-import com.major.beauty.ui.AnalyzeFgt;
-import com.major.beauty.ui.DailyFgt;
-import com.major.beauty.ui.ManagementFgt;
 
 import butterknife.BindView;
 
@@ -29,15 +26,12 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void init() {
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
-
         mNavView.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
 
         mNavView.setSelectedItemId(R.id.navigation_home);
+
+//        skipIntent(CustomersActivity.class);
+        skipIntent(CustomerDetailActivity.class);
     }
 
     private boolean onNavigationItemSelected(@NonNull MenuItem item) {

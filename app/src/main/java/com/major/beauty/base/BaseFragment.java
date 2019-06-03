@@ -1,5 +1,6 @@
 package com.major.beauty.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,7 +21,7 @@ import butterknife.Unbinder;
  * ProjectName: Beauty
  * Date: 2019/6/3 12:42
  */
-public abstract class BaseFgt extends Fragment {
+public abstract class BaseFragment extends Fragment {
 
     private Unbinder mBind;
     protected FragmentActivity mActivity;
@@ -28,7 +29,8 @@ public abstract class BaseFgt extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View inflate = View.inflate(getContext(), getRootView(), null);
+
+        View inflate = inflater.inflate(getRootView(), container, false);
         mBind = ButterKnife.bind(this, inflate);
         init();
 
@@ -36,11 +38,10 @@ public abstract class BaseFgt extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         mActivity = getActivity();
     }
-
 
     @Override
     public void onDestroyView() {

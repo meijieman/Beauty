@@ -1,13 +1,15 @@
 package com.major.beauty.ui;
 
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 
+import com.major.base.util.KeyboardUtil;
 import com.major.beauty.R;
-import com.major.beauty.base.BaseFgt;
+import com.major.beauty.base.BaseFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -20,7 +22,7 @@ import butterknife.OnClick;
  * ProjectName: Beauty
  * Date: 2019/6/3 12:42
  */
-public class DailyFgt extends BaseFgt {
+public class DailyFgt extends BaseFragment {
 
     @BindView(R.id.til_daily_content)
     TextInputLayout mContextTil;
@@ -28,6 +30,11 @@ public class DailyFgt extends BaseFgt {
     @BindView(R.id.tie_daily_content)
     TextInputEditText mContextTie;
 
+    @BindView(R.id.til_daily_content_1)
+    TextInputLayout mPhoneTil;
+
+    @BindView(R.id.tie_daily_content_1)
+    TextInputEditText mPhoneTie;
 
     @Override
     protected int getRootView() {
@@ -39,7 +46,7 @@ public class DailyFgt extends BaseFgt {
         mContextTie.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                mContextTil.setErrorEnabled(false);
+
             }
 
             @Override
@@ -59,13 +66,15 @@ public class DailyFgt extends BaseFgt {
         });
     }
 
-
     @OnClick(R.id.mb_daily_confirm)
-    void onClick(View view){
-        switch (view.getId()) {
+    void onClick(View view) {
+        switch(view.getId()) {
             case R.id.mb_daily_confirm:
 
-                String text = mContextTie.getText().toString().trim();
+                String name = mContextTie.getText().toString().trim();
+                String phone = mPhoneTie.getText().toString().trim();
+                KeyboardUtil.hideKeyboard(getContext(), view);
+                Snackbar.make(view, name + "，" + phone, Snackbar.LENGTH_SHORT).show();
 
                 break;
         }
