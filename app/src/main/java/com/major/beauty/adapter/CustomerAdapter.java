@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.major.beauty.R;
@@ -38,10 +39,10 @@ public class CustomerAdapter extends BaseAdapter<Customer, CustomerAdapter.VH> {
         holder.name.setText(notice.getName());
         holder.phone.setText(notice.getPhone());
         holder.address.setText(notice.getAddress());
-
+        holder.icon.setImageResource(R.mipmap.ic_launcher);
         holder.itemView.setOnClickListener(view -> {
             if (mListener != null) {
-                mListener.onItemClick(position, notice);
+                mListener.onItemClick(position, notice, holder.icon);
             }
         });
     }
@@ -56,6 +57,9 @@ public class CustomerAdapter extends BaseAdapter<Customer, CustomerAdapter.VH> {
         TextView phone;
         @BindView(R.id.tv_customer_address)
         TextView address;
+
+        @BindView(R.id.iv_icon)
+        ImageView icon;
 
         VH(View itemView) {
             super(itemView);

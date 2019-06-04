@@ -2,6 +2,7 @@ package com.major.beauty.base;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import java.util.List;
 
@@ -37,6 +38,6 @@ public abstract class BaseAdapter<T, V extends RecyclerView.ViewHolder> extends 
 
     public interface OnItemClickListener<T> {
 
-        void onItemClick(int pos, T item);
+        void onItemClick(int pos, T bean, View view);
     }
 }

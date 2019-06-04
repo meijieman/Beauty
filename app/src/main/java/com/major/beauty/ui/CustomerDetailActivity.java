@@ -1,7 +1,13 @@
 package com.major.beauty.ui;
 
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+
 import com.major.beauty.R;
 import com.major.beauty.base.BaseActivity;
+
+import butterknife.BindView;
 
 /**
  * @desc: 客户详细资料及修改界面
@@ -10,6 +16,11 @@ import com.major.beauty.base.BaseActivity;
  */
 public class CustomerDetailActivity extends BaseActivity {
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.ctl_customer_detail)
+    CollapsingToolbarLayout layout;
+
     @Override
     protected int getRootView() {
         return R.layout.act_customer_detail;
@@ -17,7 +28,14 @@ public class CustomerDetailActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
 
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+        layout.setTitle("个人详情");
     }
 }

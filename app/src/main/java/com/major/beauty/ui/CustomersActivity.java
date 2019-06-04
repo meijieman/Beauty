@@ -1,14 +1,19 @@
 package com.major.beauty.ui;
 
 import android.content.Intent;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.major.beauty.R;
 import com.major.beauty.adapter.CustomerAdapter;
 import com.major.beauty.base.BaseActivity;
 import com.major.beauty.bean.Customer;
+import com.major.beauty.ui.behavior.HideButtonBehavior;
 import com.major.beauty.ui.decoration.SpaceDecoration;
 
 import java.util.ArrayList;
@@ -29,7 +34,8 @@ public class CustomersActivity extends BaseActivity {
     @BindView(R.id.rv_management)
     RecyclerView mRecyclerView;
     @BindView(R.id.fab_management_add)
-    FloatingActionButton mAdd;
+    FloatingActionButton mFabButton;
+
     private CustomerAdapter mAdapter;
 
     @Override
@@ -47,16 +53,27 @@ public class CustomersActivity extends BaseActivity {
         mAdapter = new CustomerAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener((pos, item) -> {
+        mAdapter.setOnItemClickListener((pos, item, view) -> {
             // 转场动画
-            doOnIOThreadDelay(() -> startActivity(new Intent(CustomersActivity.this, CustomerDetailActivity.class)), 200, TimeUnit.MILLISECONDS);
+            animateActivity(item, view);
         });
 
-        mAdd.setOnClickListener(v -> {
+        mFabButton.setOnClickListener(v -> {
             doOnIOThreadDelay(() -> startActivity(new Intent(CustomersActivity.this, CustomerDetailActivity.class)), 200, TimeUnit.MILLISECONDS);
         });
 
         mAdapter.setData(getDatas());
+
+        CoordinatorLayout.LayoutParams cLayout = (CoordinatorLayout.LayoutParams) mFabButton.getLayoutParams();
+        HideButtonBehavior myBehavior = new HideButtonBehavior();
+        cLayout.setBehavior(myBehavior);
+    }
+
+    public void animateActivity(Customer customer, View appIcon) {
+        Intent intent = new Intent(this, CustomerDetailActivity.class);
+
+        ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(this, Pair.create(mFabButton, "fab"), Pair.create(appIcon, "appIcon"));
+        startActivity(intent, transitionActivityOptions.toBundle());
     }
 
     private List<Customer> getDatas() {

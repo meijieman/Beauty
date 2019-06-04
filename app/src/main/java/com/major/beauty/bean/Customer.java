@@ -15,36 +15,54 @@ public class Customer {
     private String phone; // 偏好
     private String favorite; // 偏好
     private String comment; // 备注
+    private String iconUrl; // 头像 url
 
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public String getPhone() {
         return phone;
     }
+
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
     public String getAddress() {
         return address;
     }
+
     public void setAddress(String address) {
         this.address = address;
     }
+
     public String getFavorite() {
         return favorite;
     }
+
     public void setFavorite(String favorite) {
         this.favorite = favorite;
     }
+
     public String getComment() {
         return comment;
     }
+
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getIconUrl() {
+        return iconUrl;
+    }
+
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
     }
 
     @Override
@@ -55,6 +73,7 @@ public class Customer {
                 ", phone='" + phone + '\'' +
                 ", favorite='" + favorite + '\'' +
                 ", comment='" + comment + '\'' +
+                ", iconUrl='" + iconUrl + '\'' +
                 '}';
     }
 }
