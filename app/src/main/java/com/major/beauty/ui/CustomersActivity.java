@@ -18,11 +18,9 @@ import com.major.beauty.ui.decoration.SpaceDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-
-import static com.major.base.rx.rxtask.RxTask.doOnIOThreadDelay;
+import butterknife.OnClick;
 
 /**
  * @desc: 客户列表
@@ -58,10 +56,6 @@ public class CustomersActivity extends BaseActivity {
             animateActivity(item, view);
         });
 
-        mFabButton.setOnClickListener(v -> {
-            doOnIOThreadDelay(() -> startActivity(new Intent(CustomersActivity.this, CustomerDetailActivity.class)), 200, TimeUnit.MILLISECONDS);
-        });
-
         mAdapter.setData(getDatas());
 
         CoordinatorLayout.LayoutParams cLayout = (CoordinatorLayout.LayoutParams) mFabButton.getLayoutParams();
@@ -86,5 +80,17 @@ public class CustomersActivity extends BaseActivity {
             list.add(c);
         }
         return list;
+    }
+
+    @OnClick(R.id.fab_management_add)
+    void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.fab_management_add:
+                startActivity(new Intent(CustomersActivity.this, CustomerDetailActivity.class));
+                break;
+            default:
+
+                break;
+        }
     }
 }
