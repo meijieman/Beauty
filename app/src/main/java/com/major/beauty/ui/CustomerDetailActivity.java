@@ -42,7 +42,7 @@ public class CustomerDetailActivity extends BaseActivity {
         layout.setTitle("个人详情");
     }
 
-    @OnClick()
+    @OnClick(R.id.fab_customer_detail)
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab_customer_detail:
