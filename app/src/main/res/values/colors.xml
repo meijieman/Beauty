@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <!--标题栏颜色-->
+    <color name="colorPrimary">#3F51B5</color>
+    <!--顶部状态栏颜色-->
+    <color name="colorPrimaryDark">#303F9F</color>
+    <!--界面中其他元素的颜色，该颜色一般与上面的两种颜色形成高反差-->
+    <color name="colorAccent">#FF4081</color>
+
     <color name="white">#fff</color>
+
+    <color name="primary_light">#C5CAE9</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
+    <color name="icons">#FFFFFF</color>
+    <color name="divider">#BDBDBD</color>
 </resources>

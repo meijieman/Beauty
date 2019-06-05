@@ -34,7 +34,9 @@
         <activity
             android:name=".ui.ItemsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
+        <activity
+            android:name=".ui.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -13,7 +13,8 @@ http://colachan.com/post/3416
 
 * https://github.com/futuresimple/android-floating-action-button
 
-
+* 配色、图标
+ https://www.materialpalette.com/
 
 
 
@@ -31,3 +32,6 @@ Design Support Library v28
 搜索框
 
 Material Spinner
+
+Palette
+

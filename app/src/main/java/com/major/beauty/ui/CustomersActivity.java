@@ -5,8 +5,10 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.major.beauty.R;
@@ -29,6 +31,8 @@ import butterknife.OnClick;
  */
 public class CustomersActivity extends BaseActivity {
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.rv_management)
     RecyclerView mRecyclerView;
     @BindView(R.id.fab_management_add)
@@ -43,6 +47,15 @@ public class CustomersActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("列表");
+
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);

@@ -34,13 +34,10 @@ public class DailyFgt extends BaseFragment {
 
     @BindView(R.id.til_daily_content)
     TextInputLayout mContextTil;
-
     @BindView(R.id.tie_daily_content)
     TextInputEditText mContextTie;
-
     @BindView(R.id.til_daily_content_1)
     TextInputLayout mPhoneTil;
-
     @BindView(R.id.tie_daily_content_1)
     TextInputEditText mPhoneTie;
 
@@ -77,6 +74,9 @@ public class DailyFgt extends BaseFragment {
             }
         });
         mContextTie.setOnFocusChangeListener((v, hasFocus) -> {
+            if (mContextTie == null) {
+                return;
+            }
             if (hasFocus) {
                 mContextTil.setErrorEnabled(false);
             } else {
