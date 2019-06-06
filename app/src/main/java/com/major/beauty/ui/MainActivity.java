@@ -30,7 +30,7 @@ public class MainActivity extends BaseActivity {
 
         mNavView.setSelectedItemId(R.id.navigation_home);
 
-        skipIntent(CustomersActivity.class);
+//        skipIntent(CustomersActivity.class);
 //        skipIntent(CustomerDetailActivity.class);
 //        skipIntent(LoginActivity.class);
     }

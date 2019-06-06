@@ -4,11 +4,16 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    tools:context=".ui.DailyFgt">
+    tools:context=".ui.AnalyzeFgt">
 
 
     <TextView
         android:layout_width="wrap_content"
         android:text="analyze"
         android:layout_height="wrap_content" />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:layout_width="match_parent"
+        android:id="@+id/bc_analyze"
+        android:layout_height="200dp"></com.github.mikephil.charting.charts.BarChart>
 </LinearLayout>
