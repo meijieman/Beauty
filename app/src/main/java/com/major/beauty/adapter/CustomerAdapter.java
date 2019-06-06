@@ -1,11 +1,15 @@
 package com.major.beauty.adapter;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,6 +47,27 @@ public class CustomerAdapter extends BaseAdapter<Customer, CustomerAdapter.VH> {
         holder.itemView.setOnClickListener(view -> {
             if (mListener != null) {
                 mListener.onItemClick(position, notice, holder.icon);
+            }
+        });
+        holder.itemView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        ObjectAnimator upAnim = ObjectAnimator.ofFloat(view, "translationZ", 16);
+                        upAnim.setDuration(100);
+                        upAnim.setInterpolator(new DecelerateInterpolator());
+                        upAnim.start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        ObjectAnimator downAnim = ObjectAnimator.ofFloat(view, "translationZ", 0);
+                        downAnim.setDuration(100);
+                        downAnim.setInterpolator(new AccelerateInterpolator());
+                        downAnim.start();
+                        break;
+                }
+                return false;
             }
         });
     }

@@ -18,10 +18,10 @@ android {
 
     signingConfigs {
         config {
-            keyAlias 'mofang.keystore'
-            keyPassword 'mofang60612345****'
-            storeFile file("../config/mofang.keystore")
-            storePassword 'mofang60612345****'
+            keyAlias 'key0'
+            keyPassword 'xxx.@19'
+            storeFile file("../config/xxxxxx.jks")
+            storePassword 'xxx.@19'
         }
     }
 
@@ -29,10 +29,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            signingConfig signingConfigs.config
+            signingConfig signingConfigs.config
         }
         debug {
-//            signingConfig signingConfigs.config
+            signingConfig signingConfigs.config
         }
     }
 
