@@ -15,8 +15,6 @@ public class Item {
     private long createTime; // 创建时间
     private String operator; // 最后操作者
 
-    private String expiryDate; // 有效期
-
     public String getName() {
         return name;
     }
@@ -47,14 +45,6 @@ public class Item {
 
     public void setOperator(String operator) {
         this.operator = operator;
-    }
-
-    public String getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(String expiryDate) {
-        this.expiryDate = expiryDate;
     }
 
     public static class ProductCount {

@@ -6,11 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.major.beauty.R;
 import com.major.beauty.base.BaseAdapter;
-import com.major.beauty.bean.Product;
+import com.major.beauty.bean.Item;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -18,7 +20,7 @@ import butterknife.ButterKnife;
  * @author: Major
  * @since: 2019/6/7 23:36
  */
-public class ItemAdapter extends BaseAdapter<Product, ItemAdapter.VH> {
+public class ItemAdapter extends BaseAdapter<Item, ItemAdapter.VH> {
 
     public ItemAdapter(Context context) {
         super(context);
@@ -33,10 +35,14 @@ public class ItemAdapter extends BaseAdapter<Product, ItemAdapter.VH> {
 
     @Override
     public void onBindViewHolder(@NonNull VH vh, int i) {
-
+        Item item = mData.get(i);
+        vh.name.setText(item.getName());
     }
 
-    static class VH extends RecyclerView.ViewHolder{
+    static class VH extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.tv_item_name)
+        TextView name;
 
         public VH(@NonNull View itemView) {
             super(itemView);

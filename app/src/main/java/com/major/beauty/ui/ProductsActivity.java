@@ -79,7 +79,7 @@ public class ProductsActivity extends BaseActivity {
 
     private List<Product> getDatas() {
         List<Product> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             Product p = new Product();
             p.setName("高效产品 " + i);
             p.setInstruction("每隔3 min 一次");
@@ -87,7 +87,6 @@ public class ProductsActivity extends BaseActivity {
         }
         return list;
     }
-
 
     @OnClick(R.id.fab_management_add)
     void onClick(View view) {

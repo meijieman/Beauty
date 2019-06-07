@@ -12,6 +12,7 @@ import android.view.View;
 import com.major.beauty.R;
 import com.major.beauty.adapter.ItemAdapter;
 import com.major.beauty.base.BaseActivity;
+import com.major.beauty.bean.Item;
 import com.major.beauty.bean.Product;
 import com.major.beauty.ui.behavior.HideButtonBehavior;
 import com.major.beauty.ui.decoration.SpaceDecoration;
@@ -77,14 +78,26 @@ public class ItemsActivity extends BaseActivity {
         cLayout.setBehavior(myBehavior);
     }
 
-    private List<Product> getDatas() {
-        List<Product> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Product p = new Product();
-            p.setName("高效产品 " + i);
-            p.setInstruction("每隔3 min 一次");
-            list.add(p);
+    private List<Item> getDatas() {
+        List<Item> list = new ArrayList<>();
+
+        List<Item.ProductCount> productCounts = new ArrayList<>();
+        Item.ProductCount productCount = new Item.ProductCount();
+        productCount.setCount(3);
+        Product product = new Product();
+        product.setName("后悔药");
+        product.setInstruction("一粒就见效");
+        productCount.setProduct(product);
+        productCounts.add(productCount);
+
+        for (int i = 0; i < 20; i++) {
+            Item item = new Item();
+            item.setCreateTime(10000L);
+            item.setName("墙裂推荐项目 " + i);
+            item.setProductCounts(productCounts);
+            list.add(item);
         }
+
         return list;
     }
 
