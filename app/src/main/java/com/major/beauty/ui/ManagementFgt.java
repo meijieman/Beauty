@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.TextView;
 
 import com.major.beauty.R;
 import com.major.beauty.base.BaseFragment;
@@ -30,6 +31,8 @@ public class ManagementFgt extends BaseFragment {
     CardView mProducts;
     @BindView(R.id.btn_management_items)
     CardView mItems;
+    @BindView(R.id.tv_count_customer)
+    TextView mCounts;
 
     @Override
     protected int getRootView() {
@@ -41,6 +44,8 @@ public class ManagementFgt extends BaseFragment {
         mCustomers.setOnTouchListener(this::onTouch);
         mProducts.setOnTouchListener(this::onTouch);
         mItems.setOnTouchListener(this::onTouch);
+
+        mCounts.setText("888位");
     }
 
     private boolean onTouch(View view, MotionEvent motionEvent) {

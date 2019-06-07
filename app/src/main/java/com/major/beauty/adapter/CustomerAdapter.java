@@ -42,7 +42,7 @@ public class CustomerAdapter extends BaseAdapter<Customer, CustomerAdapter.VH> {
         Customer notice = mData.get(position);
         holder.name.setText(notice.getName());
         holder.phone.setText(notice.getPhone());
-        holder.address.setText(notice.getAddress());
+        holder.address.setText(notice.getCompany());
         holder.icon.setImageResource(R.mipmap.ic_launcher);
         holder.itemView.setOnClickListener(view -> {
             if (mListener != null) {

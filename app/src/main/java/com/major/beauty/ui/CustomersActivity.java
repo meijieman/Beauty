@@ -89,7 +89,7 @@ public class CustomersActivity extends BaseActivity {
             Customer c = new Customer();
             c.setName("小明 " + i);
             c.setPhone("17000000" + i);
-            c.setAddress("北京市东城区故宫博物馆" + i);
+            c.setCompany("北京市东城区故宫博物馆" + i);
             list.add(c);
         }
         return list;
