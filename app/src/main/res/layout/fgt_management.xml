@@ -76,7 +76,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="products" />
+                    android:text="产品档案" />
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -105,7 +105,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="items" />
+                    android:text="项目档案" />
 
             </LinearLayout>
         </android.support.v7.widget.CardView>

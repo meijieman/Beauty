@@ -1,6 +1,5 @@
 package com.major.beauty.ui;
 
-import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
@@ -93,15 +92,6 @@ public class DailyFgt extends BaseFragment {
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.mb_daily_confirm:
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (view1, year, monthOfYear, dayOfMonth) -> {
-                    calendar.set(Calendar.YEAR, year);
-                    calendar.set(Calendar.MONTH, monthOfYear);
-                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                    String date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(calendar.getTime());
-                    ToastUtil.showShort(date);
-                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.show();
 
                 TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), (timePicker, i, i1) -> {
                     calendar.set(Calendar.HOUR_OF_DAY, i);

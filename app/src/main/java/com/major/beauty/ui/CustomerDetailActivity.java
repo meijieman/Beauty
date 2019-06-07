@@ -1,5 +1,6 @@
 package com.major.beauty.ui;
 
+import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -9,10 +10,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.major.base.util.ToastUtil;
 import com.major.beauty.R;
 import com.major.beauty.base.BaseActivity;
 import com.major.beauty.bean.Customer;
 
+import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,7 +32,7 @@ public class CustomerDetailActivity extends BaseActivity {
 
     @BindViews({R.id.tet_name, R.id.tet_phone,
             R.id.tet_sex, R.id.tet_height,
-            R.id.tet_weight, R.id.tet_birthday,
+            R.id.tet_weight, R.id.tiet_birthday,
             R.id.tet_lunar_birthday, R.id.tet_wedding_day,
             R.id.tet_skin_type, R.id.tet_nursing_needs,
             R.id.tet_available_time, R.id.tet_comment})
@@ -42,6 +46,7 @@ public class CustomerDetailActivity extends BaseActivity {
     FloatingActionButton mFab;
 
     private boolean mIsEditable; // 是否是编辑状态
+    private Calendar calendar;
 
     @Override
     protected int getRootView() {
@@ -50,6 +55,8 @@ public class CustomerDetailActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        calendar = Calendar.getInstance();
+
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
 
@@ -120,7 +127,7 @@ public class CustomerDetailActivity extends BaseActivity {
         return c;
     }
 
-    @OnClick({R.id.fab_customer_detail, R.id.mb_cost})
+    @OnClick({R.id.fab_customer_detail, R.id.mb_cost, R.id.tiet_birthday})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab_customer_detail:
@@ -139,6 +146,18 @@ public class CustomerDetailActivity extends BaseActivity {
             case R.id.mb_cost:
                 // 充值，消费详细记录
                 Snackbar.make(view, "消费详细记录", Snackbar.LENGTH_SHORT).show();
+
+                break;
+            case R.id.tiet_birthday:
+                // 选择日期
+                DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view1, year, monthOfYear, dayOfMonth) -> {
+                    calendar.set(Calendar.YEAR, year);
+                    calendar.set(Calendar.MONTH, monthOfYear);
+                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    String date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(calendar.getTime());
+                    ToastUtil.showShort(date);
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
 
                 break;
         }
