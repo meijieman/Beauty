@@ -37,6 +37,12 @@
         <activity
             android:name=".ui.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.PayActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.SalesActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

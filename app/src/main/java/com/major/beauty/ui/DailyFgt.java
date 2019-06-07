@@ -2,10 +2,10 @@ package com.major.beauty.ui;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -89,25 +89,10 @@ public class DailyFgt extends BaseFragment {
         });
     }
 
-    @OnClick(R.id.mb_daily_confirm)
+    @OnClick({R.id.mb_daily_confirm, R.id.mb_daily_pay, R.id.mb_daily_sales })
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.mb_daily_confirm:
-                String[] singleChoiceItems = {"纽约", "洛杉矶", "旧金山", "巴黎", "伦敦"};
-                int itemSelected = 0;
-                new AlertDialog.Builder(getContext())
-                        .setTitle("单选")
-                        .setSingleChoiceItems(singleChoiceItems, itemSelected, (dialogInterface, i) -> dialogInterface.dismiss())
-                        .setNegativeButton("cancel", null)
-                        .show();
-
-                boolean[] checkedItems = {true, false, false, false, false};
-                new AlertDialog.Builder(getContext())
-                        .setTitle("多选")
-                        .setMultiChoiceItems(singleChoiceItems, checkedItems, null)
-                        .setPositiveButton("ok", null)
-                        .setNegativeButton("cancel", null)
-                        .show();
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (view1, year, monthOfYear, dayOfMonth) -> {
                     calendar.set(Calendar.YEAR, year);
@@ -132,6 +117,13 @@ public class DailyFgt extends BaseFragment {
                 String phone = mPhoneTie.getText().toString().trim();
                 KeyboardUtil.hideKeyboard(getContext(), view);
                 Snackbar.make(view, name + "，" + phone, Snackbar.LENGTH_SHORT).show();
+
+                break;
+            case R.id.mb_daily_pay:
+                startActivity(new Intent(getContext(), PayActivity.class));
+                break;
+            case R.id.mb_daily_sales:
+                startActivity(new Intent(getContext(), SalesActivity.class));
 
                 break;
         }
