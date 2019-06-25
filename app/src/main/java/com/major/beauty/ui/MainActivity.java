@@ -33,6 +33,7 @@ public class MainActivity extends BaseActivity {
 //        skipIntent(CustomersActivity.class);
 //        skipIntent(CustomerDetailActivity.class);
 //        skipIntent(LoginActivity.class);
+        findViewById(R.id.navigation_notifications).performClick();
     }
 
     private boolean onNavigationItemSelected(@NonNull MenuItem item) {

@@ -14,12 +14,10 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.major.beauty.R;
 import com.major.beauty.base.BaseFragment;
-import com.major.beauty.ui.view.MyMarkerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +47,6 @@ public class AnalyzeFgt extends BaseFragment {
     protected void init() {
 
         initBarChart();
-
         List<Float> dateValueList = getDatas();
         showBarChart(dateValueList, "净资产收益率（%）", getResources().getColor(R.color.colorAccent));
 
@@ -74,9 +71,9 @@ public class AnalyzeFgt extends BaseFragment {
         initBarDataSet(barDataSet, color);
 
         BarData data = new BarData(barDataSet);
+//        data.setValueFormatter(new CustomerPercentFormatter(data));
         mBarChart.setData(data);
     }
-
 
     /**
      * 柱状图始化设置 一个BarDataSet 代表一列柱状图
@@ -86,23 +83,19 @@ public class AnalyzeFgt extends BaseFragment {
      */
     private void initBarDataSet(BarDataSet barDataSet, int color) {
         barDataSet.setColor(color);
-        // 设置线条值
-        barDataSet.setDrawValues(false);
-        barDataSet.setValueFormatter(new ValueFormatter() {
-            @Override
-            public String getFormattedValue(float value) {
-                return value + "单位";
-            }
-        });
+        // 是否绘制数据值
+        barDataSet.setDrawValues(true);
+//        barDataSet.setValueFormatter(new ValueFormatter() {
+//            @Override
+//            public String getFormattedValue(float value) {
+//                return value + "单位";
+//            }
+//        });
         barDataSet.setFormLineWidth(1f);
-        barDataSet.setFormSize(15.f);
-        //不显示柱状图顶部值
-        barDataSet.setDrawValues(false);
-//        barDataSet.setValueTextSize(10f);
-//        barDataSet.setValueTextColor(color);
+        barDataSet.setFormSize(11f);
+        barDataSet.setValueTextSize(7f);
+        barDataSet.setValueTextColor(color);
 
-
-        // https://www.cnblogs.com/wangfeng520/p/5984077.html
     }
 
     /**
@@ -113,9 +106,15 @@ public class AnalyzeFgt extends BaseFragment {
         Description desc = new Description();
         desc.setText("2019-06");
         mBarChart.setDescription(desc);
+//        mBarChart.setNoDataText("暂无数据");
+//        mBarChart.setDoubleTapToZoomEnabled(false);
+//        mBarChart.setDrawBorders(false);
+
+        mBarChart.setScaleEnabled(false);
+//        mBarChart.setTouchEnabled(false);
 
         mBarChart.setDrawBorders(false);
-        mBarChart.setDrawBarShadow(false);
+        mBarChart.setDrawBarShadow(true);
         //背景颜色
         mBarChart.setBackgroundColor(Color.WHITE);
         //不显示图表网格
@@ -124,7 +123,7 @@ public class AnalyzeFgt extends BaseFragment {
         mBarChart.setDrawBarShadow(false);
         mBarChart.setHighlightFullBarEnabled(false);
         //显示边框
-        mBarChart.setDrawBorders(true);
+        mBarChart.setDrawBorders(false);
         //设置动画效果
         mBarChart.animateY(1000, Easing.Linear);
         mBarChart.animateX(1000, Easing.Linear);
@@ -132,7 +131,7 @@ public class AnalyzeFgt extends BaseFragment {
         mBarChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                Toast.makeText(getContext(), e.getX() + "valu" + e.getData(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), e.getX() + "  " + e.getData(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -144,18 +143,24 @@ public class AnalyzeFgt extends BaseFragment {
         XAxis xAxis = mBarChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
+        xAxis.setTextColor(Color.BLACK);
+
 //        xAxis.setAxisMinimum(0f);
+        // 粒度
+        xAxis.setGranularityEnabled(false);
         xAxis.setGranularity(1f);
 
-        MyMarkerView mv = new MyMarkerView(getContext(), R.layout.custom_marker_view);
-        mBarChart.setMarker(mv);
+        //自定义 MarkerView
+//        MyMarkerView mv = new MyMarkerView(getContext(), R.layout.custom_marker_view);
+//        mBarChart.setMarker(mv);
 
         //左侧Y轴
         YAxis leftAxis = mBarChart.getAxisLeft();
         leftAxis.setDrawGridLines(false);
-        leftAxis.setDrawLimitLinesBehindData(true);
+        // 限制线
+        leftAxis.setDrawLimitLinesBehindData(false);
         LimitLine limitLine = new LimitLine(62f, "合格线");
-        limitLine.setLineColor(getResources().getColor(R.color.colorPrimaryDark));
+        limitLine.setLineColor(getResources().getColor(R.color.colorPrimary));
         limitLine.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_TOP);//文字颜色、大小
         limitLine.setTextSize(8f);
         limitLine.setLineWidth(1f);

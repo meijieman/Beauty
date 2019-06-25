@@ -46,3 +46,26 @@ Material Spinner
 
 Palette
 
+-----------
+## 问题
+```xml
+    <TextView
+        android:id="@+id/tvContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="2dp"
+        android:background="#f00"
+        android:singleLine="true"
+        android:layout_centerInParent="true"
+        android:text="2"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/holo_blue_bright"
+        android:textSize="12dp" />
+```
+如果 `android:text="2"`
+没有设置值的话，不会显示出数据，即`android:text=""`界面就不会显示数据了
+
+```
+        // 是否绘制数据值
+        barDataSet.setDrawValues(true);
+```
