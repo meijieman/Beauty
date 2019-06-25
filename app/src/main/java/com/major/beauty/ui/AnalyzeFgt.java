@@ -5,6 +5,9 @@ import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
@@ -14,6 +17,15 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.data.RadarData;
+import com.github.mikephil.charting.data.RadarDataSet;
+import com.github.mikephil.charting.data.RadarEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.major.beauty.R;
@@ -37,6 +49,12 @@ public class AnalyzeFgt extends BaseFragment {
 
     @BindView(R.id.bc_analyze)
     BarChart mBarChart;
+    @BindView(R.id.pc_analyze)
+    PieChart mPieChart;
+    @BindView(R.id.lc_analyze)
+    LineChart mLineChart;
+    @BindView(R.id.rc_analyze)
+    RadarChart mRadarChart;
 
     @Override
     protected int getRootView() {
@@ -49,6 +67,111 @@ public class AnalyzeFgt extends BaseFragment {
         initBarChart();
         List<Float> dateValueList = getDatas();
         showBarChart(dateValueList, "净资产收益率（%）", getResources().getColor(R.color.colorAccent));
+
+        initPieChart();
+
+        initLineChart();
+
+        initRadarChart();
+    }
+
+    // 折线图
+    private void initLineChart() {
+        mLineChart.setScaleEnabled(false);
+        //设置样式
+        YAxis rightAxis = mLineChart.getAxisRight();
+        //设置图表右边的y轴禁用
+        rightAxis.setEnabled(false);
+
+        YAxis leftAxis = mLineChart.getAxisLeft();
+        //设置图表左边的y轴禁用
+//        leftAxis.setEnabled(false);
+        //设置x轴
+        XAxis xAxis = mLineChart.getXAxis();
+        xAxis.setTextColor(Color.parseColor("#333333"));
+        xAxis.setTextSize(11f);
+        xAxis.setAxisMinimum(0f);
+        xAxis.setDrawAxisLine(true);//是否绘制轴线
+        xAxis.setDrawGridLines(false);//设置x轴上每个点对应的线
+        xAxis.setDrawLabels(true);//绘制标签  指x轴上的对应数值
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);//设置x轴的显示位置
+        xAxis.setGranularity(1f);//禁止放大后x轴标签重绘
+
+        //透明化图例
+        Legend legend = mLineChart.getLegend();
+        legend.setForm(Legend.LegendForm.NONE);
+        legend.setTextColor(Color.WHITE);
+
+        //隐藏x轴描述
+        Description description = new Description();
+        description.setEnabled(false);
+        mLineChart.setDescription(description);
+
+        //1.设置x轴和y轴的点
+        List<Entry> entries = new ArrayList<>();
+        for (int i = 0; i < 12; i++){
+            entries.add(new Entry(i, new Random().nextInt(300)));
+        }
+
+        LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
+        dataSet.setColor(Color.parseColor("#7d7d7d"));//线条颜色
+        dataSet.setCircleColor(Color.parseColor("#7d7d7d"));//圆点颜色
+        dataSet.setLineWidth(1f);//线条宽度
+        //3.chart设置数据
+        LineData lineData = new LineData(dataSet);
+        mLineChart.setData(lineData);
+
+    }
+
+    // 雷达图
+    private void initRadarChart() {
+        XAxis xAxis = mRadarChart.getXAxis();
+        YAxis yAxis = mRadarChart.getYAxis();
+        yAxis.setAxisMinimum(0);
+        List<RadarEntry> radarEntries = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            radarEntries.add(new RadarEntry((i+1)*10));
+        }
+        RadarDataSet dataSet = new RadarDataSet(radarEntries,"");
+        dataSet.setColor(Color.RED);
+        RadarData radarData = new RadarData(dataSet);
+        mRadarChart.animateXY(1000,1000);
+        mRadarChart.setData(radarData);
+
+
+
+    }
+
+
+    // 饼图
+    private void initPieChart() {
+        Description description = new Description();
+        description.setText("");
+        mPieChart.setDescription(description);
+        // 实心饼图
+//        mPieChart.setHoleRadius(0f);
+//        mPieChart.setTransparentCircleRadius(0f);
+
+        List<PieEntry> data = new ArrayList<>();
+        data.add(new PieEntry(30f, "耗材a"));
+        data.add(new PieEntry(60f, "耗材b"));
+        data.add(new PieEntry(10f, "其他"));
+
+        PieDataSet dataSet = new PieDataSet(data, "");
+        dataSet.setDrawValues(true);
+        dataSet.setValueFormatter(new PercentFormatter());
+
+        ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(getResources().getColor(R.color.colorAccent));
+        colors.add(getResources().getColor(R.color.colorPrimary));
+        colors.add(getResources().getColor(R.color.colorPrimaryDark));
+        dataSet.setColors(colors);
+
+        PieData pieData = new PieData(dataSet);
+        pieData.setDrawValues(true);
+
+        mPieChart.setData(pieData);
+
 
     }
 
@@ -113,7 +236,7 @@ public class AnalyzeFgt extends BaseFragment {
         mBarChart.setScaleEnabled(false);
 //        mBarChart.setTouchEnabled(false);
 
-        mBarChart.setDrawBorders(false);
+        mBarChart.setDrawBorders(true);
         mBarChart.setDrawBarShadow(true);
         //背景颜色
         mBarChart.setBackgroundColor(Color.WHITE);

@@ -1,19 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".ui.AnalyzeFgt">
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="analyze"
-        android:layout_height="wrap_content" />
-
-    <com.github.mikephil.charting.charts.BarChart
+    <LinearLayout
         android:layout_width="match_parent"
-        android:id="@+id/bc_analyze"
-        android:layout_height="200dp"></com.github.mikephil.charting.charts.BarChart>
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/bc_analyze"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pc_analyze"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_marginTop="20dp" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lc_analyze"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="20dp" />
+
+
+        <com.github.mikephil.charting.charts.RadarChart
+            android:id="@+id/rc_analyze"
+            android:layout_width="match_parent"
+            android:layout_height="400dp" />
+    </LinearLayout>
+</ScrollView>
