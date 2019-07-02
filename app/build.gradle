@@ -84,4 +84,7 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:1.1.1"
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    implementation 'com.airbnb.android:lottie:2.1.0'
+
 }

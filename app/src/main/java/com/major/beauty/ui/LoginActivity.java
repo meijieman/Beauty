@@ -1,7 +1,10 @@
 package com.major.beauty.ui;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.major.beauty.R;
 import com.major.beauty.base.BaseActivity;
+
+import butterknife.BindView;
 
 /**
  * Desc: TODO
@@ -13,6 +16,10 @@ import com.major.beauty.base.BaseActivity;
  */
 public class LoginActivity extends BaseActivity {
 
+
+    @BindView(R.id.animation_view)
+    LottieAnimationView mLottie;
+
     @Override
     protected int getRootView() {
         return R.layout.act_login;
@@ -20,6 +27,8 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void init() {
+
+        mLottie.playAnimation();
 
     }
 }

@@ -7,6 +7,14 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="likeanim.json"
+        app:lottie_loop="true" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
