@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.major.beauty"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -87,4 +87,10 @@ dependencies {
 
     implementation 'com.airbnb.android:lottie:2.1.0'
 
+    implementation 'pub.devrel:easypermissions:2.0.1'
+
+    // 签名
+    implementation ('com.github.gcacace:signature-pad:1.2.1'){
+        exclude module: 'support-v4'
+    }
 }
