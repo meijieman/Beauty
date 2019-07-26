@@ -28,6 +28,8 @@ https://a52071453.iteye.com/blog/1978498
 * 常用的图表库
 https://blog.csdn.net/u014133119/article/details/80923327
 
+* Android 手写和笔锋研究资料
+https://blog.csdn.net/bglg2000/article/details/89429400
 
 ---
 
