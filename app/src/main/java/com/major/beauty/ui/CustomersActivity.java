@@ -77,18 +77,18 @@ public class CustomersActivity extends BaseActivity {
             @Override
             public void onItemClick(int pos, Customer item, View view) {
                 // 转场动画
-                animateActivity(item.getCid(), view);
+                animateActivity(item.getId(), view);
             }
 
             @Override
-            public void onLongClick(int pos, Customer bean, View view) {
+            public void onItemLongClick(int pos, Customer bean, View view) {
                 new AlertDialog.Builder(CustomersActivity.this)
                         .setTitle("提示")
                         .setMessage(String.format("\n要删除用户[%s]吗？", bean.getName()))
                         .setPositiveButton("确定", (dialogInterface, i) -> {
                             // 更新数据库
-                            long rst = mDao.delById(bean.getCid());
-                            LogUtil.v("删除用户 " + bean.getCid() + ", rst " + rst);
+                            long rst = mDao.delById(bean.getId());
+                            LogUtil.v("删除用户 " + bean.getId() + ", rst " + rst);
                             mAdapter.del(pos);
                             dialogInterface.dismiss();
 
@@ -140,7 +140,7 @@ public class CustomersActivity extends BaseActivity {
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab_management_add:
-                startActivity(new Intent(CustomersActivity.this, CustomerDetailActivity.class));
+                skipIntent(CustomerDetailActivity.class);
                 break;
             default:
 

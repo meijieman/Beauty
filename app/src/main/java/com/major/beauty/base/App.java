@@ -3,6 +3,7 @@ package com.major.beauty.base;
 import android.app.Application;
 
 import com.litesuits.orm.LiteOrm;
+import com.litesuits.orm.db.DataBaseConfig;
 import com.major.base.CommonConfig;
 import com.major.base.crash.CrashHandler;
 import com.major.beauty.bean.Avatar;
@@ -27,7 +28,9 @@ public class App extends Application {
         sApp = this;
 
         CrashHandler.getInstance().init(this, "crash", true);
-        mLiteOrm = LiteOrm.newSingleInstance(this, "mei_beauty.db");
+        DataBaseConfig config = new DataBaseConfig(this, "mei_beauty.db");
+        config.dbVersion = 2;
+        mLiteOrm = LiteOrm.newSingleInstance(config);
         mLiteOrm.setDebugged(true);
 
         new CommonConfig.Build()

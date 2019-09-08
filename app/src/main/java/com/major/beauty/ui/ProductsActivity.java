@@ -1,6 +1,5 @@
 package com.major.beauty.ui;
 
-import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
@@ -9,14 +8,18 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.major.base.util.CommonUtil;
+import com.major.base.util.ToastUtil;
 import com.major.beauty.R;
 import com.major.beauty.adapter.ProductAdapter;
 import com.major.beauty.base.BaseActivity;
+import com.major.beauty.base.BaseAdapter;
 import com.major.beauty.bean.Product;
+import com.major.beauty.dao.ProductDao;
+import com.major.beauty.dialog.ModifyProductDlg;
 import com.major.beauty.ui.behavior.HideButtonBehavior;
 import com.major.beauty.ui.decoration.SpaceDecoration;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,6 +43,7 @@ public class ProductsActivity extends BaseActivity {
     FloatingActionButton mFabButton;
 
     private ProductAdapter mAdapter;
+    private ProductDao mDao = new ProductDao();
 
     @Override
     protected int getRootView() {
@@ -65,34 +69,36 @@ public class ProductsActivity extends BaseActivity {
         mAdapter = new ProductAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener((pos, item, view) -> {
-            // 转场动画
+        mAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener<Product>() {
+            @Override
+            public void onItemClick(int pos, Product bean, View view) {
+                // 转场动画
 //            animateActivity(item, view);
+            }
+
+            @Override
+            public void onItemLongClick(int pos, Product bean, View view) {
+                ToastUtil.showShort("del " + bean);
+            }
         });
 
-        mAdapter.setData(getDatas());
+        List<Product> query = mDao.query();
+        if (CommonUtil.isNotEmpty(query)) {
+            mAdapter.setData(query);
+        }
 
         CoordinatorLayout.LayoutParams cLayout = (CoordinatorLayout.LayoutParams) mFabButton.getLayoutParams();
         HideButtonBehavior myBehavior = new HideButtonBehavior();
         cLayout.setBehavior(myBehavior);
     }
 
-    private List<Product> getDatas() {
-        List<Product> list = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            Product p = new Product();
-            p.setName("高效产品 " + i);
-            p.setInstruction("每隔3 min 一次");
-            list.add(p);
-        }
-        return list;
-    }
-
     @OnClick(R.id.fab_management_add)
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab_management_add:
-                startActivity(new Intent(this, ItemDetailActivity.class));
+                ModifyProductDlg dialog = new ModifyProductDlg(this);
+                dialog.show();
+//                skipIntent(ProductDetailActivity.class);
                 break;
             default:
 

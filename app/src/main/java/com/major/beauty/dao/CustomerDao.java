@@ -1,7 +1,6 @@
 package com.major.beauty.dao;
 
 import com.litesuits.orm.db.assit.QueryBuilder;
-import com.litesuits.orm.db.model.ConflictAlgorithm;
 import com.major.beauty.bean.Customer;
 
 import java.util.List;
@@ -30,12 +29,4 @@ public class CustomerDao extends BaseDao<Customer> {
         return -1;
     }
 
-    public long insertOrUpdate(Customer c) {
-        Customer customer = liteOrm.queryById(c.getCid(), Customer.class);
-        if (customer == null) {
-            return liteOrm.insert(c, ConflictAlgorithm.Fail);
-        } else {
-            return liteOrm.update(c, ConflictAlgorithm.Fail);
-        }
-    }
 }

@@ -14,6 +14,10 @@ public class Product extends Base {
     @NotNull
     private String name; // 产品名称
     private String instruction; // 说明
+    private double price;
+    private String comment;
+    private String unit; // 单位
+    private int isDel;
 
     public String getName() {
         return name;
@@ -29,5 +33,49 @@ public class Product extends Base {
 
     public void setInstruction(String instruction) {
         this.instruction = instruction;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public int getIsDel() {
+        return isDel;
+    }
+
+    public void setIsDel(int isDel) {
+        this.isDel = isDel;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "name='" + name + '\'' +
+                ", instruction='" + instruction + '\'' +
+                ", price=" + price +
+                ", comment='" + comment + '\'' +
+                ", unit='" + unit + '\'' +
+                ", isDel=" + isDel +
+                '}';
     }
 }

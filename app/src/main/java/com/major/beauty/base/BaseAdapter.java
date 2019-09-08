@@ -46,7 +46,7 @@ public abstract class BaseAdapter<T, V extends RecyclerView.ViewHolder> extends 
 
         void onItemClick(int pos, T bean, View view);
 
-        default void onLongClick(int pos, T bean, View view) {
+        default void onItemLongClick(int pos, T bean, View view) {
         }
     }
 }

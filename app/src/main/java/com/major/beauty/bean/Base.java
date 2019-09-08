@@ -11,13 +11,13 @@ import com.litesuits.orm.db.enums.AssignType;
 public class Base {
 
     @PrimaryKey(AssignType.AUTO_INCREMENT)
-    private long cid;
+    private long _id;
 
-    public void setCid(long cid) {
-        this.cid = cid;
+    public void setId(long id) {
+        this._id = id;
     }
 
-    public long getCid() {
-        return cid;
+    public long getId() {
+        return _id;
     }
 }
