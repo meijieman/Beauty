@@ -113,8 +113,7 @@ public class DailyFgt extends BaseFragment {
                 startActivity(new Intent(getContext(), PayActivity.class));
                 break;
             case R.id.mb_daily_sales:
-//                startActivity(new Intent(getContext(), SalesActivity.class));
-                startActivity(new Intent(getContext(), SignatureActivity.class));
+                startActivity(new Intent(getContext(), SalesActivity.class));
 
                 break;
         }

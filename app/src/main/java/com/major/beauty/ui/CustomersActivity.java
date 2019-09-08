@@ -1,5 +1,6 @@
 package com.major.beauty.ui;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -11,14 +12,20 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.major.base.log.LogUtil;
+import com.major.base.util.CommonUtil;
+import com.major.base.util.ToastUtil;
 import com.major.beauty.R;
 import com.major.beauty.adapter.CustomerAdapter;
+import com.major.beauty.base.App;
 import com.major.beauty.base.BaseActivity;
+import com.major.beauty.base.BaseAdapter;
+import com.major.beauty.base.Constant;
 import com.major.beauty.bean.Customer;
 import com.major.beauty.ui.behavior.HideButtonBehavior;
 import com.major.beauty.ui.decoration.SpaceDecoration;
+import com.major.beauty.ui.vm.CustomersVM;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -52,7 +59,7 @@ public class CustomersActivity extends BaseActivity {
 
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("列表");
+        actionBar.setTitle("顾客管理");
 
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
@@ -64,35 +71,50 @@ public class CustomersActivity extends BaseActivity {
         mAdapter = new CustomerAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener((pos, item, view) -> {
-            // 转场动画
-            animateActivity(item, view);
+        mAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener<Customer>() {
+            @Override
+            public void onItemClick(int pos, Customer item, View view) {
+                // 转场动画
+                animateActivity(item.getCid(), view);
+            }
+
+            @Override
+            public void onLongClick(int pos, Customer bean, View view) {
+                ToastUtil.showShort("del");
+            }
         });
 
-        mAdapter.setData(getDatas());
+        List<Customer> customers = App.getInstance().getLiteOrm().query(Customer.class);
+        if (CommonUtil.isNotEmpty(customers)) {
+            mAdapter.setData(customers);
+        } else {
+            LogUtil.i("no data");
+        }
 
         CoordinatorLayout.LayoutParams cLayout = (CoordinatorLayout.LayoutParams) mFabButton.getLayoutParams();
         HideButtonBehavior myBehavior = new HideButtonBehavior();
         cLayout.setBehavior(myBehavior);
+
+        ViewModelProviders.of(this).get(CustomersVM.class).getUpdate()
+                .observe(this, aBoolean -> {
+                    if (aBoolean) {
+                        ToastUtil.showShort("收到更新");
+
+                        List<Customer> customers1 = App.getInstance().getLiteOrm().query(Customer.class);
+                        if (CommonUtil.isNotEmpty(customers1)) {
+                            mAdapter.setData(customers1);
+                        } else {
+                            LogUtil.i("no data");
+                        }
+                    }
+                });
     }
 
-    public void animateActivity(Customer customer, View appIcon) {
+    public void animateActivity(long cid, View appIcon) {
         Intent intent = new Intent(this, CustomerDetailActivity.class);
-
+        intent.putExtra(Constant.EXTRA_CID, cid);
         ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(this, Pair.create(mFabButton, "fab"), Pair.create(appIcon, "appIcon"));
         startActivity(intent, transitionActivityOptions.toBundle());
-    }
-
-    private List<Customer> getDatas() {
-        List<Customer> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Customer c = new Customer();
-            c.setName("小明 " + i);
-            c.setPhone("17000000" + i);
-            c.setCompany("北京市东城区故宫博物馆" + i);
-            list.add(c);
-        }
-        return list;
     }
 
     @OnClick(R.id.fab_management_add)

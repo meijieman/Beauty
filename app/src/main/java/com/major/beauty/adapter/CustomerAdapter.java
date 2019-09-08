@@ -49,6 +49,15 @@ public class CustomerAdapter extends BaseAdapter<Customer, CustomerAdapter.VH> {
                 mListener.onItemClick(position, notice, holder.icon);
             }
         });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (mListener != null) {
+                    mListener.onLongClick(position, notice, holder.icon);
+                }
+                return true;
+            }
+        });
         holder.itemView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {

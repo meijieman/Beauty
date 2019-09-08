@@ -32,12 +32,15 @@ public abstract class BaseAdapter<T, V extends RecyclerView.ViewHolder> extends 
 
     protected OnItemClickListener<T> mListener;
 
-    public void setOnItemClickListener(OnItemClickListener<T> listener){
+    public void setOnItemClickListener(OnItemClickListener<T> listener) {
         mListener = listener;
     }
 
     public interface OnItemClickListener<T> {
 
         void onItemClick(int pos, T bean, View view);
+
+        default void onLongClick(int pos, T bean, View view) {
+        }
     }
 }

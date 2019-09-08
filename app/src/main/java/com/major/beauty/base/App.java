@@ -2,8 +2,10 @@ package com.major.beauty.base;
 
 import android.app.Application;
 
+import com.litesuits.orm.LiteOrm;
 import com.major.base.CommonConfig;
 import com.major.base.crash.CrashHandler;
+import com.major.beauty.bean.Avatar;
 
 /**
  * @desc: TODO
@@ -13,6 +15,7 @@ import com.major.base.crash.CrashHandler;
 public class App extends Application {
 
     private static App sApp;
+    private LiteOrm mLiteOrm;
 
     public static App getInstance() {
         return sApp;
@@ -24,9 +27,32 @@ public class App extends Application {
         sApp = this;
 
         CrashHandler.getInstance().init(this, "crash", true);
+        mLiteOrm = LiteOrm.newSingleInstance(this, "mei_beauty.db");
+        mLiteOrm.setDebugged(true);
+
         new CommonConfig.Build()
                 .setApplication(this)
                 .setLogUtil("tag_beauty", true, false)
                 .build();
+
+        test();
+    }
+
+    private void test() {
+        // 用户角色
+        Avatar avatar = new Avatar();
+        avatar.setName("major");
+        avatar.setGrade(1);
+
+        // 创建用户数据
+
+        // 创建产品数据
+
+        // 创建项目数据
+
+    }
+
+    public LiteOrm getLiteOrm(){
+        return mLiteOrm;
     }
 }

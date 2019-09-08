@@ -1,6 +1,6 @@
 package com.major.beauty.ui;
 
-import android.app.DatePickerDialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -10,12 +10,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.major.base.util.ToastUtil;
+import com.major.base.log.LogUtil;
+import com.major.base.util.KeyboardUtil;
 import com.major.beauty.R;
+import com.major.beauty.base.App;
 import com.major.beauty.base.BaseActivity;
+import com.major.beauty.base.Constant;
 import com.major.beauty.bean.Customer;
+import com.major.beauty.dao.CustomerDao;
+import com.major.beauty.ui.vm.CustomersVM;
 
-import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -30,12 +34,14 @@ import butterknife.OnClick;
  */
 public class CustomerDetailActivity extends BaseActivity {
 
+
     @BindViews({R.id.tet_name, R.id.tet_phone,
-            R.id.tet_sex, R.id.tet_height,
-            R.id.tet_weight, R.id.tiet_birthday,
-            R.id.tet_lunar_birthday, R.id.tet_wedding_day,
-            R.id.tet_skin_type, R.id.tet_nursing_needs,
-            R.id.tet_available_time, R.id.tet_comment})
+//            R.id.tet_sex, R.id.tet_height,
+//            R.id.tet_weight, R.id.tiet_birthday,
+//            R.id.tet_lunar_birthday, R.id.tet_wedding_day,
+//            R.id.tet_skin_type, R.id.tet_nursing_needs,
+//            R.id.tet_available_time,
+            R.id.tet_comment})
     List<TextInputEditText> mTies;
 
     @BindView(R.id.toolbar)
@@ -45,8 +51,9 @@ public class CustomerDetailActivity extends BaseActivity {
     @BindView(R.id.fab_customer_detail)
     FloatingActionButton mFab;
 
-    private boolean mIsEditable; // 是否是编辑状态
+    private boolean mIsEditMode; // 是否是编辑状态
     private Calendar calendar;
+    private Customer mCustomer;
 
     @Override
     protected int getRootView() {
@@ -65,31 +72,45 @@ public class CustomerDetailActivity extends BaseActivity {
 
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
-        Customer c = test();
-        layout.setTitle(c.getName() + "个人详情");
+        long cid = getIntent().getLongExtra(Constant.EXTRA_CID, -1L);
+        if (cid == -1) {
+            // 新增
+            mIsEditMode = true;
+            editable(true);
 
-        mTies.get(0).setText(c.getName());
-        mTies.get(1).setText(c.getPhone());
-        mTies.get(2).setText(c.getSex());
-        mTies.get(3).setText(c.getHeight() + "cm");
-        mTies.get(4).setText(c.getWeight() + "kg");
-        mTies.get(5).setText(c.getBirthday());
-        mTies.get(6).setText(c.getLunarBirthday());
-        mTies.get(7).setText(c.getWeddingDay());
-        mTies.get(8).setText(c.getSkinType());
-        mTies.get(9).setText(c.getNursingNeeds());
-        mTies.get(10).setText(c.getAvailableTime());
-        mTies.get(11).setText(c.getComment());
+            layout.setTitle("个人档案");
 
-        editable(false);
+        } else {
+            mCustomer = App.getInstance().getLiteOrm().queryById(cid, Customer.class);
+            if (mCustomer == null) {
+                LogUtil.e("query error " + cid);
+                return;
+            }
+            layout.setTitle(mCustomer.getName() + "个人档案");
+
+            mTies.get(0).setText(mCustomer.getName());
+            mTies.get(1).setText(mCustomer.getPhone());
+//            mTies.get(2).setText(mCustomer.getSex());
+//            mTies.get(3).setText(mCustomer.getHeight() + "cm");
+//            mTies.get(4).setText(mCustomer.getWeight() + "kg");
+//            mTies.get(5).setText(mCustomer.getBirthday());
+//            mTies.get(6).setText(mCustomer.getLunarBirthday());
+//            mTies.get(7).setText(mCustomer.getWeddingDay());
+//            mTies.get(8).setText(mCustomer.getSkinType());
+//            mTies.get(9).setText(mCustomer.getNursingNeeds());
+//            mTies.get(10).setText(mCustomer.getAvailableTime());
+            mTies.get(2).setText(mCustomer.getComment());
+
+            editable(false);
+        }
     }
 
     @Override
     public void onBackPressed() {
-        if (mIsEditable) {
+        if (mIsEditMode) {
             // TODO: 2019/6/7 如果有修改未保存,提示
 
-            mIsEditable = false;
+            mIsEditMode = false;
             return;
         }
         super.onBackPressed();
@@ -101,65 +122,69 @@ public class CustomerDetailActivity extends BaseActivity {
             if (b) {
                 // 编辑模式
                 mTY.setTextColor(getResources().getColor(R.color.colorAccent));
+                mFab.setImageResource(R.drawable.ic_done);
+
             } else {
                 // 查看模式
                 mTY.setTextColor(getResources().getColor(R.color.primary_text));
                 mTY.setHighlightColor(Color.GREEN);
+                mFab.setImageResource(R.drawable.ic_edit);
             }
         }
     }
 
-    private Customer test() {
-        Customer c = new Customer();
-        c.setName("花花");
-        c.setPhone("15818697500");
-        c.setSex("女");
-        c.setHeight(160);
-        c.setWeight(45);
-        c.setBirthday("2000-01-01");
-        c.setLunarBirthday("农历元旦");
-        c.setWeddingDay("2019-10-01");
-        c.setSkinType("油性皮肤");
-        c.setNursingNeeds("面部保养");
-        c.setAvailableTime("周天上午");
-        c.setComment("");
-
-        return c;
-    }
-
-    @OnClick({R.id.fab_customer_detail, R.id.mb_cost, R.id.tiet_birthday})
+    @OnClick({R.id.fab_customer_detail, R.id.mb_cost/*, R.id.tiet_birthday*/})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab_customer_detail:
-                if (mIsEditable) {
-                    // 提交数据，设置为查看状态
-                    editable(false);
-                    Snackbar.make(view, "修改成功", Snackbar.LENGTH_SHORT).show();
-                    mFab.setImageResource(R.drawable.ic_edit);
+                if (mIsEditMode) {
+                    // 提交数据
+                    KeyboardUtil.hideKeyboard(this, view);
+
+                    String tip = "修改成功";
+                    if (mCustomer == null) {
+                        mCustomer = new Customer("major");
+                        tip = "添加成功";
+                    }
+
+                    mCustomer.setName(mTies.get(0).getText().toString());
+                    mCustomer.setPhone(mTies.get(1).getText().toString());
+
+                    long update = CustomerDao.insertOrUpdate(mCustomer);
+                    LogUtil.i("update " + update);
+                    if (update != -1) {
+                        Snackbar.make(view, tip, Snackbar.LENGTH_SHORT).show();
+                        editable(false);
+
+                        // TODO: 2019/9/8 如果是新增，通知其他界面更新
+                        CustomersVM.SingletonLiveData<Boolean> updateLD = ViewModelProviders.of(this).get(CustomersVM.class).getUpdate();
+                        updateLD.postValue(true);
+
+                    }
                 } else {
                     // 设置为编辑状态
                     editable(true);
-                    mFab.setImageResource(R.drawable.ic_done);
                 }
-                mIsEditable = !mIsEditable;
+
+                mIsEditMode = !mIsEditMode;
                 break;
             case R.id.mb_cost:
                 // 充值，消费详细记录
                 Snackbar.make(view, "消费详细记录", Snackbar.LENGTH_SHORT).show();
 
                 break;
-            case R.id.tiet_birthday:
-                // 选择日期
-                DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view1, year, monthOfYear, dayOfMonth) -> {
-                    calendar.set(Calendar.YEAR, year);
-                    calendar.set(Calendar.MONTH, monthOfYear);
-                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                    String date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(calendar.getTime());
-                    ToastUtil.showShort(date);
-                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.show();
-
-                break;
+//            case R.id.tiet_birthday:
+//                // 选择日期
+//                DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view1, year, monthOfYear, dayOfMonth) -> {
+//                    calendar.set(Calendar.YEAR, year);
+//                    calendar.set(Calendar.MONTH, monthOfYear);
+//                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+//                    String date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(calendar.getTime());
+//                    ToastUtil.showShort(date);
+//                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+//                datePickerDialog.show();
+//
+//                break;
         }
     }
 }

@@ -1,5 +1,9 @@
 package com.major.beauty.bean;
 
+import com.litesuits.orm.db.annotation.NotNull;
+import com.litesuits.orm.db.annotation.PrimaryKey;
+import com.litesuits.orm.db.enums.AssignType;
+
 /**
  * Desc: 顾客资料
  * <p>
@@ -10,12 +14,17 @@ package com.major.beauty.bean;
  */
 public class Customer {
 
+    @PrimaryKey(AssignType.AUTO_INCREMENT)
+    private long cid;
+
     // 基本资料
+    @NotNull
     private String name; // 姓名
+    @NotNull
     private String phone; // 手机号
-    private String sex; // 性别
 
     // 详细资料
+    private String sex; // 性别
     private int height; // 身高（cm）
     private float weight; // 体重（kg）
     private String company; // 职业, 工作单位
@@ -30,9 +39,25 @@ public class Customer {
 
     private String comment; // 备注
     private String iconUrl; // 头像 url
+
+    @NotNull
     private long createTime; // 记录创建时间
     private long modifyTime; // 最近修改时间
+    @NotNull
     private String operator; // 最近操作员工
+
+    public Customer(String operator){
+        setCreateTime(System.currentTimeMillis());
+        setOperator(operator);
+    }
+
+    public void setCid(long cid) {
+        this.cid = cid;
+    }
+
+    public long getCid() {
+        return cid;
+    }
 
     public String getName() {
         return name;

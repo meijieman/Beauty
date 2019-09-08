@@ -1,6 +1,7 @@
 package com.major.beauty.ui;
 
 import android.animation.ObjectAnimator;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.view.MotionEvent;
@@ -9,8 +10,16 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
+import com.major.base.log.LogUtil;
+import com.major.base.util.CommonUtil;
+import com.major.base.util.ToastUtil;
 import com.major.beauty.R;
+import com.major.beauty.base.App;
 import com.major.beauty.base.BaseFragment;
+import com.major.beauty.bean.Customer;
+import com.major.beauty.ui.vm.CustomersVM;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -45,7 +54,23 @@ public class ManagementFgt extends BaseFragment {
         mProducts.setOnTouchListener(this::onTouch);
         mItems.setOnTouchListener(this::onTouch);
 
-        mCounts.setText("888位");
+        long count = App.getInstance().getLiteOrm().queryCount(Customer.class);
+        mCounts.setText(String.format("共%s位", count));
+
+        ViewModelProviders.of(this).get(CustomersVM.class).getUpdate()
+                .observe(this, aBoolean -> {
+                    if (aBoolean) {
+                        ToastUtil.showShort("收到更新");
+
+                        List<Customer> customers1 = App.getInstance().getLiteOrm().query(Customer.class);
+                        if (CommonUtil.isNotEmpty(customers1)) {
+                            long count1 = App.getInstance().getLiteOrm().queryCount(Customer.class);
+                            mCounts.setText(String.format("共%s位", count1));
+                        } else {
+                            LogUtil.i("no data");
+                        }
+                    }
+                });
     }
 
     private boolean onTouch(View view, MotionEvent motionEvent) {

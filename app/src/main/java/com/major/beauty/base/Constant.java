@@ -7,4 +7,10 @@ package com.major.beauty.base;
  */
 public interface Constant {
 
+    String EXTRA_CID = "extra_cid";
+
+
+    String NOTIFY_ADD_CUSTOMER = "NOTIFY_ADD_CUSTOMER";
+
+
 }
