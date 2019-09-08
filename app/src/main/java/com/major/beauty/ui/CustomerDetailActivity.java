@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.major.base.log.LogUtil;
+import com.major.base.util.CommonUtil;
 import com.major.base.util.KeyboardUtil;
 import com.major.beauty.R;
 import com.major.beauty.base.BaseActivity;
@@ -146,8 +147,20 @@ public class CustomerDetailActivity extends BaseActivity {
                         tip = "添加成功";
                     }
 
-                    mCustomer.setName(mTies.get(0).getText().toString());
-                    mCustomer.setPhone(mTies.get(1).getText().toString());
+                    String name = mTies.get(0).getText().toString();
+                    if (CommonUtil.isEmpty(name)) {
+                        mTies.get(0).setError("姓名不能为空");
+                        mTies.get(0).requestFocus();
+                        return;
+                    }
+                    mCustomer.setName(name);
+                    String phone = mTies.get(1).getText().toString();
+                    if (CommonUtil.isEmpty(phone)) {
+                        mTies.get(1).setError("电话不能为空");
+                        mTies.get(1).requestFocus();
+                        return;
+                    }
+                    mCustomer.setPhone(phone);
 
                     long update = mDao.insertOrUpdate(mCustomer);
                     LogUtil.i("update " + update);
