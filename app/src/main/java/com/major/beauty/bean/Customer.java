@@ -1,8 +1,7 @@
 package com.major.beauty.bean;
 
 import com.litesuits.orm.db.annotation.NotNull;
-import com.litesuits.orm.db.annotation.PrimaryKey;
-import com.litesuits.orm.db.enums.AssignType;
+import com.litesuits.orm.db.annotation.Table;
 
 /**
  * Desc: 顾客资料
@@ -12,10 +11,8 @@ import com.litesuits.orm.db.enums.AssignType;
  * ProjectName: Beauty
  * Date: 2019/6/3 16:37
  */
-public class Customer {
-
-    @PrimaryKey(AssignType.AUTO_INCREMENT)
-    private long cid;
+@Table("customer")
+public class Customer extends Base {
 
     // 基本资料
     @NotNull
@@ -46,17 +43,11 @@ public class Customer {
     @NotNull
     private String operator; // 最近操作员工
 
-    public Customer(String operator){
+    private int isDel; // 是否已删除 0 未删除，1 删除 默认 0
+
+    public Customer(String operator) {
         setCreateTime(System.currentTimeMillis());
         setOperator(operator);
-    }
-
-    public void setCid(long cid) {
-        this.cid = cid;
-    }
-
-    public long getCid() {
-        return cid;
     }
 
     public String getName() {
@@ -189,6 +180,14 @@ public class Customer {
 
     public void setOperator(String operator) {
         this.operator = operator;
+    }
+
+    public boolean isDel() {
+        return isDel != 0;
+    }
+
+    public void setDel(int del) {
+        isDel = del;
     }
 
     @Override

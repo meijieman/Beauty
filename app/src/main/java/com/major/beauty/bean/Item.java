@@ -1,5 +1,8 @@
 package com.major.beauty.bean;
 
+import com.litesuits.orm.db.annotation.NotNull;
+import com.litesuits.orm.db.annotation.Table;
+
 import java.util.List;
 
 /**
@@ -7,9 +10,11 @@ import java.util.List;
  * @author: Major
  * @since: 2019/6/7 23:20
  */
-public class Item {
+@Table("item")
+public class Item extends Base {
 
-    private String name; // 项目名称（唯一值）
+    @NotNull
+    private String name; // 项目名称
     private List<ProductCount> productCounts; // 包含的产品及其数量
 
     private long createTime; // 创建时间

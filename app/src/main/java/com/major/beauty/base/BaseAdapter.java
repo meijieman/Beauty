@@ -25,6 +25,12 @@ public abstract class BaseAdapter<T, V extends RecyclerView.ViewHolder> extends 
         notifyDataSetChanged();
     }
 
+    public void del(int pos){
+        mData.remove(pos);
+        notifyItemRemoved(pos);
+        notifyItemRangeChanged(pos, mData.size() - 1, "");
+    }
+
     @Override
     public int getItemCount() {
         return mData == null ? 0 : mData.size();

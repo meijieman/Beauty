@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -17,11 +18,11 @@ import com.major.base.util.CommonUtil;
 import com.major.base.util.ToastUtil;
 import com.major.beauty.R;
 import com.major.beauty.adapter.CustomerAdapter;
-import com.major.beauty.base.App;
 import com.major.beauty.base.BaseActivity;
 import com.major.beauty.base.BaseAdapter;
 import com.major.beauty.base.Constant;
 import com.major.beauty.bean.Customer;
+import com.major.beauty.dao.CustomerDao;
 import com.major.beauty.ui.behavior.HideButtonBehavior;
 import com.major.beauty.ui.decoration.SpaceDecoration;
 import com.major.beauty.ui.vm.CustomersVM;
@@ -46,6 +47,7 @@ public class CustomersActivity extends BaseActivity {
     FloatingActionButton mFabButton;
 
     private CustomerAdapter mAdapter;
+    private CustomerDao mDao = new CustomerDao();
 
     @Override
     protected int getRootView() {
@@ -80,11 +82,27 @@ public class CustomersActivity extends BaseActivity {
 
             @Override
             public void onLongClick(int pos, Customer bean, View view) {
-                ToastUtil.showShort("del");
+                new AlertDialog.Builder(CustomersActivity.this)
+                        .setTitle("提示")
+                        .setMessage(String.format("\n要删除用户[%s]吗？", bean.getName()))
+                        .setPositiveButton("确定", (dialogInterface, i) -> {
+                            // 更新数据库
+                            long rst = mDao.delById(bean.getCid());
+                            LogUtil.v("删除用户 " + bean.getCid() + ", rst " + rst);
+                            mAdapter.del(pos);
+                            dialogInterface.dismiss();
+
+                            // 更新顾客数量
+                            CustomersVM.SingletonLiveData<Integer> updateLD = ViewModelProviders.of(CustomersActivity.this)
+                                    .get(CustomersVM.class).getUpdate();
+                            updateLD.postValue(CustomersVM.DEL);
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
             }
         });
 
-        List<Customer> customers = App.getInstance().getLiteOrm().query(Customer.class);
+        List<Customer> customers = mDao.query();
         if (CommonUtil.isNotEmpty(customers)) {
             mAdapter.setData(customers);
         } else {
@@ -96,11 +114,11 @@ public class CustomersActivity extends BaseActivity {
         cLayout.setBehavior(myBehavior);
 
         ViewModelProviders.of(this).get(CustomersVM.class).getUpdate()
-                .observe(this, aBoolean -> {
-                    if (aBoolean) {
+                .observe(this, integer -> {
+                    if (integer == CustomersVM.ADD) {
                         ToastUtil.showShort("收到更新");
 
-                        List<Customer> customers1 = App.getInstance().getLiteOrm().query(Customer.class);
+                        List<Customer> customers1 = mDao.query();
                         if (CommonUtil.isNotEmpty(customers1)) {
                             mAdapter.setData(customers1);
                         } else {
@@ -113,7 +131,8 @@ public class CustomersActivity extends BaseActivity {
     public void animateActivity(long cid, View appIcon) {
         Intent intent = new Intent(this, CustomerDetailActivity.class);
         intent.putExtra(Constant.EXTRA_CID, cid);
-        ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(this, Pair.create(mFabButton, "fab"), Pair.create(appIcon, "appIcon"));
+        ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(this,
+                Pair.create(mFabButton, "fab"), Pair.create(appIcon, "appIcon"));
         startActivity(intent, transitionActivityOptions.toBundle());
     }
 

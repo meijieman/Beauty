@@ -13,7 +13,6 @@ import android.view.View;
 import com.major.base.log.LogUtil;
 import com.major.base.util.KeyboardUtil;
 import com.major.beauty.R;
-import com.major.beauty.base.App;
 import com.major.beauty.base.BaseActivity;
 import com.major.beauty.base.Constant;
 import com.major.beauty.bean.Customer;
@@ -34,7 +33,6 @@ import butterknife.OnClick;
  */
 public class CustomerDetailActivity extends BaseActivity {
 
-
     @BindViews({R.id.tet_name, R.id.tet_phone,
 //            R.id.tet_sex, R.id.tet_height,
 //            R.id.tet_weight, R.id.tiet_birthday,
@@ -54,6 +52,7 @@ public class CustomerDetailActivity extends BaseActivity {
     private boolean mIsEditMode; // 是否是编辑状态
     private Calendar calendar;
     private Customer mCustomer;
+    private CustomerDao mDao = new CustomerDao();
 
     @Override
     protected int getRootView() {
@@ -81,7 +80,7 @@ public class CustomerDetailActivity extends BaseActivity {
             layout.setTitle("个人档案");
 
         } else {
-            mCustomer = App.getInstance().getLiteOrm().queryById(cid, Customer.class);
+            mCustomer = mDao.queryById(cid, Customer.class);
             if (mCustomer == null) {
                 LogUtil.e("query error " + cid);
                 return;
@@ -150,15 +149,15 @@ public class CustomerDetailActivity extends BaseActivity {
                     mCustomer.setName(mTies.get(0).getText().toString());
                     mCustomer.setPhone(mTies.get(1).getText().toString());
 
-                    long update = CustomerDao.insertOrUpdate(mCustomer);
+                    long update = mDao.insertOrUpdate(mCustomer);
                     LogUtil.i("update " + update);
                     if (update != -1) {
                         Snackbar.make(view, tip, Snackbar.LENGTH_SHORT).show();
                         editable(false);
 
-                        // TODO: 2019/9/8 如果是新增，通知其他界面更新
-                        CustomersVM.SingletonLiveData<Boolean> updateLD = ViewModelProviders.of(this).get(CustomersVM.class).getUpdate();
-                        updateLD.postValue(true);
+                        // 如果是新增，通知其他界面更新
+                        CustomersVM.SingletonLiveData<Integer> updateLD = ViewModelProviders.of(this).get(CustomersVM.class).getUpdate();
+                        updateLD.postValue(CustomersVM.ADD);
 
                     }
                 } else {

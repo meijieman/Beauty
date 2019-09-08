@@ -10,9 +10,12 @@ import android.arch.lifecycle.ViewModel;
  */
 public class CustomersVM extends ViewModel {
 
-    private SingletonLiveData<Boolean> mUpdate = SingletonLiveData.getInstance();
+    public static final int ADD = 1;
+    public static final int DEL = 2;
 
-    public SingletonLiveData<Boolean> getUpdate() {
+    private SingletonLiveData<Integer> mUpdate = SingletonLiveData.getInstance();
+
+    public SingletonLiveData<Integer> getUpdate() {
         return mUpdate;
     }
 

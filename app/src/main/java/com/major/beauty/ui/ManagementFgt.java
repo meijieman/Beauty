@@ -10,16 +10,11 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
-import com.major.base.log.LogUtil;
-import com.major.base.util.CommonUtil;
 import com.major.base.util.ToastUtil;
 import com.major.beauty.R;
-import com.major.beauty.base.App;
 import com.major.beauty.base.BaseFragment;
-import com.major.beauty.bean.Customer;
+import com.major.beauty.dao.CustomerDao;
 import com.major.beauty.ui.vm.CustomersVM;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -43,6 +38,8 @@ public class ManagementFgt extends BaseFragment {
     @BindView(R.id.tv_count_customer)
     TextView mCounts;
 
+    private CustomerDao mDao = new CustomerDao();
+
     @Override
     protected int getRootView() {
         return R.layout.fgt_management;
@@ -54,21 +51,15 @@ public class ManagementFgt extends BaseFragment {
         mProducts.setOnTouchListener(this::onTouch);
         mItems.setOnTouchListener(this::onTouch);
 
-        long count = App.getInstance().getLiteOrm().queryCount(Customer.class);
-        mCounts.setText(String.format("共%s位", count));
+        mCounts.setText(String.format("共%s位", mDao.queryCount()));
 
         ViewModelProviders.of(this).get(CustomersVM.class).getUpdate()
-                .observe(this, aBoolean -> {
-                    if (aBoolean) {
+                .observe(this, integer -> {
+                    if (integer == CustomersVM.ADD
+                            || integer == CustomersVM.DEL) {
                         ToastUtil.showShort("收到更新");
 
-                        List<Customer> customers1 = App.getInstance().getLiteOrm().query(Customer.class);
-                        if (CommonUtil.isNotEmpty(customers1)) {
-                            long count1 = App.getInstance().getLiteOrm().queryCount(Customer.class);
-                            mCounts.setText(String.format("共%s位", count1));
-                        } else {
-                            LogUtil.i("no data");
-                        }
+                        mCounts.setText(String.format("共%s位", mDao.queryCount()));
                     }
                 });
     }
