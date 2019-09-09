@@ -4,7 +4,6 @@ import com.litesuits.orm.LiteOrm;
 import com.litesuits.orm.db.model.ConflictAlgorithm;
 import com.major.beauty.base.App;
 import com.major.beauty.bean.Base;
-import com.major.beauty.bean.Customer;
 
 import java.util.List;
 
@@ -29,8 +28,8 @@ public abstract class BaseDao<T extends Base> {
     }
 
     public long insertOrUpdate(T t) {
-        Customer customer = liteOrm.queryById(t.getId(), Customer.class);
-        if (customer == null) {
+        Base base = liteOrm.queryById(t.getId(), t.getClass());
+        if (base == null) {
             return liteOrm.insert(t, ConflictAlgorithm.Fail);
         } else {
             return liteOrm.update(t, ConflictAlgorithm.Fail);

@@ -19,6 +19,7 @@ public class Item extends Base {
 
     private long createTime; // 创建时间
     private String operator; // 最后操作者
+    private int isDel;
 
     public String getName() {
         return name;
@@ -50,6 +51,10 @@ public class Item extends Base {
 
     public void setOperator(String operator) {
         this.operator = operator;
+    }
+
+    public void setDel(int isDel) {
+        this.isDel = isDel;
     }
 
     public static class ProductCount {

@@ -91,6 +91,8 @@ public class ProductsActivity extends BaseActivity {
             public void onItemClick(int pos, Product bean, View view) {
                 // 转场动画
 //            animateActivity(item, view);
+                ModifyProductDlg dialog = new ModifyProductDlg(ProductsActivity.this, bean);
+                dialog.show();
             }
 
             @Override

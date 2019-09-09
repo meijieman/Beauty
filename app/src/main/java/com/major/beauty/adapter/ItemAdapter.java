@@ -1,11 +1,15 @@
 package com.major.beauty.adapter;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
 import com.major.beauty.R;
@@ -37,6 +41,36 @@ public class ItemAdapter extends BaseAdapter<Item, ItemAdapter.VH> {
     public void onBindViewHolder(@NonNull VH vh, int i) {
         Item item = mData.get(i);
         vh.name.setText(item.getName());
+
+        vh.itemView.setOnClickListener(view -> {
+            if (mListener != null) {
+                mListener.onItemClick(i, item, null);
+            }
+        });
+        vh.itemView.setOnLongClickListener(view -> {
+            if (mListener != null) {
+                mListener.onItemLongClick(i, item, null);
+            }
+            return true;
+        });
+        vh.itemView.setOnTouchListener((view, event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    ObjectAnimator upAnim = ObjectAnimator.ofFloat(view, "translationZ", 16);
+                    upAnim.setDuration(100);
+                    upAnim.setInterpolator(new DecelerateInterpolator());
+                    upAnim.start();
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    ObjectAnimator downAnim = ObjectAnimator.ofFloat(view, "translationZ", 0);
+                    downAnim.setDuration(100);
+                    downAnim.setInterpolator(new AccelerateInterpolator());
+                    downAnim.start();
+                    break;
+            }
+            return false;
+        });
     }
 
     static class VH extends RecyclerView.ViewHolder {
