@@ -21,4 +21,14 @@ public class ProductDao extends BaseDao<Product> {
     }
 
 
+    public long delById(long id) {
+        Product product = liteOrm.queryById(id, Product.class);
+        if (product != null) {
+            // 软删除
+            product.setDel(1);
+            return liteOrm.update(product);
+        }
+
+        return -1;
+    }
 }

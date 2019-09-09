@@ -1,5 +1,6 @@
 package com.major.beauty.ui;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -169,7 +170,7 @@ public class CustomerDetailActivity extends BaseActivity {
                         editable(false);
 
                         // 如果是新增，通知其他界面更新
-                        CustomersVM.SingletonLiveData<Integer> updateLD = ViewModelProviders.of(this).get(CustomersVM.class).getUpdate();
+                        MutableLiveData<Integer> updateLD = ViewModelProviders.of(this).get(CustomersVM.class).getUpdate();
                         updateLD.postValue(CustomersVM.ADD);
 
                     }

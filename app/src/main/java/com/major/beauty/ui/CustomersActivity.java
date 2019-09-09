@@ -1,5 +1,6 @@
 package com.major.beauty.ui;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
@@ -93,7 +94,7 @@ public class CustomersActivity extends BaseActivity {
                             dialogInterface.dismiss();
 
                             // 更新顾客数量
-                            CustomersVM.SingletonLiveData<Integer> updateLD = ViewModelProviders.of(CustomersActivity.this)
+                            MutableLiveData<Integer> updateLD = ViewModelProviders.of(CustomersActivity.this)
                                     .get(CustomersVM.class).getUpdate();
                             updateLD.postValue(CustomersVM.DEL);
                         })

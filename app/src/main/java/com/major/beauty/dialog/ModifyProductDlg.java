@@ -1,10 +1,13 @@
 package com.major.beauty.dialog;
 
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.major.base.log.LogUtil;
 import com.major.base.util.CommonUtil;
@@ -12,6 +15,9 @@ import com.major.base.util.ToastUtil;
 import com.major.beauty.R;
 import com.major.beauty.bean.Product;
 import com.major.beauty.dao.ProductDao;
+import com.major.beauty.ui.ProductsActivity;
+import com.major.beauty.ui.vm.CustomersVM;
+import com.major.beauty.ui.vm.ProductsVM;
 
 import java.util.List;
 
@@ -32,18 +38,16 @@ public class ModifyProductDlg extends AlertDialog {
 
     private Product mProduct;
     private ProductDao mDao = new ProductDao();
+    private Context mContext;
 
     public ModifyProductDlg(Context context) {
         super(context);
+        mContext = context;
     }
 
     public ModifyProductDlg(Context context, Product product) {
         this(context);
         mProduct = product;
-    }
-
-    public ModifyProductDlg(Context context, int themeResId) {
-        super(context, themeResId);
     }
 
     @Override
@@ -53,6 +57,10 @@ public class ModifyProductDlg extends AlertDialog {
         ButterKnife.bind(this);
         setCanceledOnTouchOutside(false);
 
+        WindowManager.LayoutParams params = getWindow().getAttributes();
+        params.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE; // 显示dialog的时候,就显示软键盘
+        params.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND; // 就是这个属性导致不能获取焦点,默认的是FLAG_NOT_FOCUSABLE,故名思义不能获取输入焦点,
+        getWindow().setAttributes(params);
         if (mProduct != null) {
             mTies.get(0).setText(mProduct.getName());
             mTies.get(1).setText(String.valueOf(mProduct.getPrice()));
@@ -91,6 +99,9 @@ public class ModifyProductDlg extends AlertDialog {
                     dismiss();
                 }
 
+                MutableLiveData<Integer> updateLD = ViewModelProviders.of((ProductsActivity) mContext)
+                        .get(ProductsVM.class).getUpdate();
+                updateLD.postValue(CustomersVM.ADD);
                 break;
             default:
                 break;

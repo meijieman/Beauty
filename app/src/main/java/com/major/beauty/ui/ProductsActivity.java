@@ -1,13 +1,16 @@
 package com.major.beauty.ui;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.major.base.log.LogUtil;
 import com.major.base.util.CommonUtil;
 import com.major.base.util.ToastUtil;
 import com.major.beauty.R;
@@ -19,6 +22,8 @@ import com.major.beauty.dao.ProductDao;
 import com.major.beauty.dialog.ModifyProductDlg;
 import com.major.beauty.ui.behavior.HideButtonBehavior;
 import com.major.beauty.ui.decoration.SpaceDecoration;
+import com.major.beauty.ui.vm.CustomersVM;
+import com.major.beauty.ui.vm.ProductsVM;
 
 import java.util.List;
 
@@ -42,7 +47,6 @@ public class ProductsActivity extends BaseActivity {
     @BindView(R.id.fab_management_add)
     FloatingActionButton mFabButton;
 
-    private ProductAdapter mAdapter;
     private ProductDao mDao = new ProductDao();
 
     @Override
@@ -57,7 +61,7 @@ public class ProductsActivity extends BaseActivity {
 
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("列表");
+        actionBar.setTitle("产品档案");
 
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
@@ -66,10 +70,23 @@ public class ProductsActivity extends BaseActivity {
         mRecyclerView.setLayoutManager(manager);
         SpaceDecoration itemDecoration = new SpaceDecoration(14);
         mRecyclerView.addItemDecoration(itemDecoration);
-        mAdapter = new ProductAdapter(this);
-        mRecyclerView.setAdapter(mAdapter);
+        ProductAdapter adapter = new ProductAdapter(this);
+        mRecyclerView.setAdapter(adapter);
 
-        mAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener<Product>() {
+        ViewModelProviders.of(ProductsActivity.this).get(ProductsVM.class).getUpdate()
+                .observe(this, integer -> {
+                    ToastUtil.showShort("收到更新");
+                    if (integer == CustomersVM.ADD) {
+                        List<Product> Product = mDao.query();
+                        if (CommonUtil.isNotEmpty(Product)) {
+                            adapter.setData(Product);
+                        } else {
+                            LogUtil.i("no data");
+                        }
+                    }
+                });
+
+        adapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener<Product>() {
             @Override
             public void onItemClick(int pos, Product bean, View view) {
                 // 转场动画
@@ -78,13 +95,24 @@ public class ProductsActivity extends BaseActivity {
 
             @Override
             public void onItemLongClick(int pos, Product bean, View view) {
-                ToastUtil.showShort("del " + bean);
+                new AlertDialog.Builder(ProductsActivity.this)
+                        .setTitle("提示")
+                        .setMessage(String.format("\n要删除产品[%s]吗？", bean.getName()))
+                        .setPositiveButton("确定", (dialogInterface, i) -> {
+                            // 更新数据库
+                            long rst = mDao.delById(bean.getId());
+                            LogUtil.v("删除产品 " + bean.getId() + ", rst " + rst);
+                            adapter.del(pos);
+                            dialogInterface.dismiss();
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
             }
         });
 
         List<Product> query = mDao.query();
         if (CommonUtil.isNotEmpty(query)) {
-            mAdapter.setData(query);
+            adapter.setData(query);
         }
 
         CoordinatorLayout.LayoutParams cLayout = (CoordinatorLayout.LayoutParams) mFabButton.getLayoutParams();

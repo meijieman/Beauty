@@ -8,7 +8,7 @@ import android.arch.lifecycle.ViewModel;
  * @author: Major
  * @since: 2019/9/8 18:20
  */
-public class CustomersVM extends ViewModel {
+public class ProductsVM extends ViewModel {
 
     public static final int ADD = 1;
     public static final int DEL = 2;

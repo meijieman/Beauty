@@ -48,26 +48,29 @@ public class ProductAdapter extends BaseAdapter<Product, ProductAdapter.VH> {
                 mListener.onItemClick(i, product, null);
             }
         });
-        vh.itemView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        ObjectAnimator upAnim = ObjectAnimator.ofFloat(view, "translationZ", 16);
-                        upAnim.setDuration(100);
-                        upAnim.setInterpolator(new DecelerateInterpolator());
-                        upAnim.start();
-                        break;
-                    case MotionEvent.ACTION_UP:
-                    case MotionEvent.ACTION_CANCEL:
-                        ObjectAnimator downAnim = ObjectAnimator.ofFloat(view, "translationZ", 0);
-                        downAnim.setDuration(100);
-                        downAnim.setInterpolator(new AccelerateInterpolator());
-                        downAnim.start();
-                        break;
-                }
-                return false;
+        vh.itemView.setOnLongClickListener(view -> {
+            if (mListener != null) {
+                mListener.onItemLongClick(i, product, null);
             }
+            return true;
+        });
+        vh.itemView.setOnTouchListener((view, event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    ObjectAnimator upAnim = ObjectAnimator.ofFloat(view, "translationZ", 16);
+                    upAnim.setDuration(100);
+                    upAnim.setInterpolator(new DecelerateInterpolator());
+                    upAnim.start();
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    ObjectAnimator downAnim = ObjectAnimator.ofFloat(view, "translationZ", 0);
+                    downAnim.setDuration(100);
+                    downAnim.setInterpolator(new AccelerateInterpolator());
+                    downAnim.start();
+                    break;
+            }
+            return false;
         });
     }
 

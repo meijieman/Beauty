@@ -59,11 +59,7 @@ public class Product extends Base {
         this.unit = unit;
     }
 
-    public int getIsDel() {
-        return isDel;
-    }
-
-    public void setIsDel(int isDel) {
+    public void setDel(int isDel) {
         this.isDel = isDel;
     }
 
