@@ -24,6 +24,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingTop="6dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="6dp"
             android:text="查找"
             android:textAllCaps="false"
             android:textAppearance="?android:attr/textAppearanceLargeInverse"
@@ -83,8 +87,9 @@
 
     <!--销售商品选择-->
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
 
         <android.support.design.button.MaterialButton
@@ -92,6 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginRight="10dp"
             android:gravity="center"
             android:paddingLeft="30dp"
             android:paddingTop="10dp"
@@ -109,6 +115,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
             android:gravity="center"
             android:paddingLeft="30dp"
             android:paddingTop="10dp"
@@ -135,7 +142,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="备注"
-            android:lines="3" />
+            android:lines="5" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.button.MaterialButton
