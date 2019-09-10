@@ -1,6 +1,7 @@
 package com.major.beauty.dao;
 
 import com.litesuits.orm.db.assit.QueryBuilder;
+import com.major.base.log.LogUtil;
 import com.major.beauty.bean.Customer;
 
 import java.util.List;
@@ -29,4 +30,14 @@ public class CustomerDao extends BaseDao<Customer> {
         return -1;
     }
 
+    public List<Customer> queryByNameOrPhone(String text) {
+        // 参考 https://blog.csdn.net/lisiben/article/details/84466463
+        QueryBuilder<Customer> qb = new QueryBuilder<>(Customer.class).where("(name like '%'||?||'%'", text)
+                .whereOr("phone like '%'||?||'%')", text)
+                .whereAnd("isDel=?", 0);
+
+        LogUtil.w("statement " + qb.createStatement().toString());
+
+        return liteOrm.query(qb);
+    }
 }
