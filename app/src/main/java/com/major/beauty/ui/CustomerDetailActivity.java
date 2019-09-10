@@ -15,6 +15,7 @@ import com.major.base.log.LogUtil;
 import com.major.base.util.CommonUtil;
 import com.major.base.util.KeyboardUtil;
 import com.major.beauty.R;
+import com.major.beauty.base.App;
 import com.major.beauty.base.BaseActivity;
 import com.major.beauty.base.Constant;
 import com.major.beauty.bean.Customer;
@@ -144,7 +145,7 @@ public class CustomerDetailActivity extends BaseActivity {
 
                     String tip = "修改成功";
                     if (mCustomer == null) {
-                        mCustomer = new Customer("major");
+                        mCustomer = new Customer(App.getInstance().mAvatar.getName());
                         tip = "添加成功";
                     }
 

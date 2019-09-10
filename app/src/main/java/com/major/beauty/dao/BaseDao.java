@@ -1,7 +1,6 @@
 package com.major.beauty.dao;
 
 import com.litesuits.orm.LiteOrm;
-import com.litesuits.orm.db.model.ConflictAlgorithm;
 import com.major.beauty.base.App;
 import com.major.beauty.bean.Base;
 
@@ -28,13 +27,6 @@ public abstract class BaseDao<T extends Base> {
     }
 
     public long insertOrUpdate(T t) {
-        Base base = liteOrm.queryById(t.getId(), t.getClass());
-        if (base == null) {
-            return liteOrm.insert(t, ConflictAlgorithm.Fail);
-        } else {
-            return liteOrm.update(t, ConflictAlgorithm.Fail);
-        }
+        return liteOrm.save(t);
     }
-
-    ;
 }

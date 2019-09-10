@@ -29,8 +29,10 @@ public class App extends Application {
 
         CrashHandler.getInstance().init(this, "crash", true);
         DataBaseConfig config = new DataBaseConfig(this, "mei_beauty.db");
-        config.dbVersion = 2;
-        mLiteOrm = LiteOrm.newSingleInstance(config);
+        config.dbVersion = 1;
+//        mLiteOrm = LiteOrm.newSingleInstance(config);
+        // 有级联操作，需要使用这个
+        mLiteOrm = LiteOrm.newCascadeInstance(config);
         mLiteOrm.setDebugged(true);
 
         new CommonConfig.Build()
@@ -41,11 +43,13 @@ public class App extends Application {
         test();
     }
 
+    public Avatar mAvatar;
+
     private void test() {
         // 用户角色
-        Avatar avatar = new Avatar();
-        avatar.setName("major");
-        avatar.setGrade(1);
+        mAvatar = new Avatar();
+        mAvatar.setName("major");
+        mAvatar.setGrade(1);
 
         // 创建用户数据
 

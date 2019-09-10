@@ -21,13 +21,12 @@ public class ItemDao extends BaseDao<Item> {
         ArrayList<Item> query = liteOrm.query(where);
         if (query != null) {
             for (Item item : query) {
-                // TODO: 2019/9/9 连表查询
+                // TODO: 2019/9/9 级联查询
 //                item.setProductCounts();
             }
         }
         return query;
     }
-
 
     public long delById(long id) {
         Item item = liteOrm.queryById(id, Item.class);

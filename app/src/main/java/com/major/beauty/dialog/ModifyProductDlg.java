@@ -11,7 +11,6 @@ import android.view.WindowManager;
 
 import com.major.base.log.LogUtil;
 import com.major.base.util.CommonUtil;
-import com.major.base.util.ToastUtil;
 import com.major.beauty.R;
 import com.major.beauty.bean.Product;
 import com.major.beauty.dao.ProductDao;
@@ -80,7 +79,7 @@ public class ModifyProductDlg extends AlertDialog {
                 String unit = mTies.get(2).getText().toString();
                 String comment = mTies.get(3).getText().toString();
                 if (CommonUtil.isEmpty(name)) {
-                    ToastUtil.showShort("产品名称不能为空");
+                    mTies.get(0).setError("产品名称不能为空");
                     return;
                 }
                 if (mProduct == null) {

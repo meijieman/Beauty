@@ -2,6 +2,7 @@ package com.major.beauty.ui;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
@@ -18,9 +19,9 @@ import com.major.beauty.R;
 import com.major.beauty.adapter.ItemAdapter;
 import com.major.beauty.base.BaseActivity;
 import com.major.beauty.base.BaseAdapter;
+import com.major.beauty.base.Constant;
 import com.major.beauty.bean.Item;
 import com.major.beauty.dao.ItemDao;
-import com.major.beauty.dialog.ModifyItemDlg;
 import com.major.beauty.ui.behavior.HideButtonBehavior;
 import com.major.beauty.ui.decoration.SpaceDecoration;
 import com.major.beauty.ui.vm.CustomersVM;
@@ -92,19 +93,20 @@ public class ItemsActivity extends BaseActivity {
         mAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener<Item>() {
             @Override
             public void onItemClick(int pos, Item bean, View view) {
-                ModifyItemDlg dialog = new ModifyItemDlg(ItemsActivity.this, bean);
-                dialog.show();
+                Intent intent = new Intent(ItemsActivity.this, ItemDetailActivity.class);
+                intent.putExtra(Constant.EXTRA_IID, bean.getId());
+                startActivity(intent);
             }
 
             @Override
             public void onItemLongClick(int pos, Item bean, View view) {
                 new AlertDialog.Builder(ItemsActivity.this)
                         .setTitle("提示")
-                        .setMessage(String.format("\n要删除用户[%s]吗？", bean.getName()))
+                        .setMessage(String.format("\n要删除项目[%s]吗？", bean.getName()))
                         .setPositiveButton("确定", (dialogInterface, i) -> {
                             // 更新数据库
                             long rst = mDao.delById(bean.getId());
-                            LogUtil.v("删除用户 " + bean.getId() + ", rst " + rst);
+                            LogUtil.v("删除项目 " + bean.getId() + ", rst " + rst);
                             mAdapter.del(pos);
                             dialogInterface.dismiss();
 
@@ -134,8 +136,7 @@ public class ItemsActivity extends BaseActivity {
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab_management_add:
-                ModifyItemDlg dialog = new ModifyItemDlg(this);
-                dialog.show();
+                skipIntent(ItemDetailActivity.class);
                 break;
             default:
 

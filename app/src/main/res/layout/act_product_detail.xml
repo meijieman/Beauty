@@ -79,7 +79,7 @@
                     android:id="@+id/tet_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="价格"
+                    android:hint="价格(元)"
                     android:inputType="phone"
                     android:lines="1" />
             </android.support.design.widget.TextInputLayout>

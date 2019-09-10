@@ -1,7 +1,9 @@
 package com.major.beauty.bean;
 
+import com.litesuits.orm.db.annotation.Mapping;
 import com.litesuits.orm.db.annotation.NotNull;
 import com.litesuits.orm.db.annotation.Table;
+import com.litesuits.orm.db.enums.Relation;
 
 import java.util.List;
 
@@ -15,11 +17,19 @@ public class Item extends Base {
 
     @NotNull
     private String name; // 项目名称
-    private List<ProductCount> productCounts; // 包含的产品及其数量
+
+    @Mapping(Relation.OneToMany)
+    public List<ProductCount> productCounts; // 包含的产品及其数量
 
     private long createTime; // 创建时间
     private String operator; // 最后操作者
     private int isDel;
+    private String comment;
+
+    public Item(String operator) {
+        createTime = System.currentTimeMillis();
+        this.operator = operator;
+    }
 
     public String getName() {
         return name;
@@ -57,24 +67,11 @@ public class Item extends Base {
         this.isDel = isDel;
     }
 
-    public static class ProductCount {
-        private Product product; // 产品
-        private int count; // 数量
+    public String getComment() {
+        return comment;
+    }
 
-        public Product getProduct() {
-            return product;
-        }
-
-        public void setProduct(Product product) {
-            this.product = product;
-        }
-
-        public int getCount() {
-            return count;
-        }
-
-        public void setCount(int count) {
-            this.count = count;
-        }
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }
