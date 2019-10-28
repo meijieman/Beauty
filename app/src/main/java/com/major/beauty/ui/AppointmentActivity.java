@@ -1,14 +1,13 @@
 package com.major.beauty.ui;
 
 import android.app.TimePickerDialog;
+import android.support.design.button.MaterialButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.major.base.util.CommonUtil;
 import com.major.base.util.KeyboardUtil;
 import com.major.base.util.ToastUtil;
 import com.major.beauty.R;
@@ -27,14 +26,14 @@ import butterknife.OnClick;
  */
 public class AppointmentActivity extends BaseActivity {
 
-    @BindView(R.id.til_daily_content)
-    TextInputLayout mContextTil;
-    @BindView(R.id.tie_daily_content)
-    TextInputEditText mContextTie;
-    @BindView(R.id.til_daily_content_1)
-    TextInputLayout mPhoneTil;
-    @BindView(R.id.tie_daily_content_1)
-    TextInputEditText mPhoneTie;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.tie_appointment_remark)
+    TextInputEditText mRemark;
+    @BindView(R.id.mb_appointment_time_start)
+    MaterialButton mTimeStart;
+    @BindView(R.id.mb_appointment_time_end)
+    MaterialButton mTimeEnd;
 
     private Calendar calendar;
 
@@ -45,49 +44,28 @@ public class AppointmentActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("预约");
+
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
         calendar = Calendar.getInstance();
 
-        mContextTie.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.length() == 0) {
-                    mContextTil.setError("输入为空");
-                    mContextTil.setErrorEnabled(true);
-                } else {
-                    mContextTil.setErrorEnabled(false);
-                }
-            }
-        });
-        mContextTie.setOnFocusChangeListener((v, hasFocus) -> {
-            if (mContextTie == null) {
-                return;
-            }
-            if (hasFocus) {
-                mContextTil.setErrorEnabled(false);
-            } else {
-                String text = mContextTie.getText().toString().trim();
-                if (CommonUtil.isEmpty(text)) {
-                    mContextTil.setError("输入为空");
-                    mContextTil.setErrorEnabled(true);
-                }
-            }
-        });
     }
 
-    @OnClick({R.id.mb_appointment_add})
+    @OnClick({R.id.mb_appointment_name, R.id.mb_appointment_time_start, R.id.mb_appointment_time_end, R.id.mb_appointment_add})
     void onClick(View view) {
         switch (view.getId()) {
-            case R.id.mb_appointment_add:
+            case R.id.mb_appointment_name:
+                // 弹出客户搜索框
+                Snackbar.make(view, "customer", Snackbar.LENGTH_SHORT).show();
+
+                break;
+            case R.id.mb_appointment_time_start:
                 TimePickerDialog timePickerDialog = new TimePickerDialog(this, (timePicker, i, i1) -> {
                     calendar.set(Calendar.HOUR_OF_DAY, i);
                     calendar.set(Calendar.MINUTE, i1);
@@ -96,9 +74,13 @@ public class AppointmentActivity extends BaseActivity {
 
                 }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
                 timePickerDialog.show();
+                break;
+            case R.id.mb_appointment_time_end:
 
-                String name = mContextTie.getText().toString().trim();
-                String phone = mPhoneTie.getText().toString().trim();
+                break;
+            case R.id.mb_appointment_add:
+                String name = mTimeStart.getText().toString().trim();
+                String phone = mTimeStart.getText().toString().trim();
                 KeyboardUtil.hideKeyboard(this, view);
                 Snackbar.make(view, name + "，" + phone, Snackbar.LENGTH_SHORT).show();
                 break;

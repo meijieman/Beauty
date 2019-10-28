@@ -5,36 +5,92 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.PayActivity">
+    tools:context=".ui.AppointmentActivity">
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/til_daily_content"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_collapseMode="pin"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="客户名称" />
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/mb_appointment_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:paddingLeft="30dp"
+        android:paddingTop="10dp"
+        android:paddingRight="30dp"
+        android:paddingBottom="10dp"
+        android:text="选择客户"
+        android:textAllCaps="false"
+        android:textAppearance="?android:attr/textAppearanceLargeInverse"
+        android:textSize="16sp"
+        app:backgroundTint="@color/design_default_color_primary"
+        app:rippleColor="@color/white" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="时间段" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="20dp">
+        android:orientation="horizontal">
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/tie_daily_content"
-            android:layout_width="wrap_content"
+        <android.support.design.button.MaterialButton
+            android:id="@+id/mb_appointment_time_start"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="请输入姓名"
-            android:minWidth="160dp"
-            android:textSize="14sp" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="开始时间"
+            android:textAllCaps="false"
+            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+            android:textSize="16sp"
+            app:backgroundTint="@color/design_default_color_primary"
+            app:rippleColor="@color/white" />
 
+        <android.support.design.button.MaterialButton
+            android:id="@+id/mb_appointment_time_end"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="结束时间"
+            android:textAllCaps="false"
+            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+            android:textSize="16sp"
+            app:backgroundTint="@color/design_default_color_primary"
+            app:rippleColor="@color/white" />
+    </LinearLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/til_daily_content_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="请输入联系方式"
         android:paddingTop="20dp"
         app:hintTextAppearance="@style/MyStyle">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/tie_daily_content_1"
+            android:id="@+id/tie_appointment_remark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:hint="备注"
+            android:maxLines="5"
             android:minWidth="160dp"
             android:textSize="14sp" />
     </android.support.design.widget.TextInputLayout>
