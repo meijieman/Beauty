@@ -185,6 +185,7 @@ public class CustomerDetailActivity extends BaseActivity {
             case R.id.mb_cost:
                 // 充值，消费详细记录
                 Snackbar.make(view, "消费详细记录", Snackbar.LENGTH_SHORT).show();
+                skipIntent(CostRecordActivity.class);
 
                 break;
 //            case R.id.tiet_birthday:

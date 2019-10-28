@@ -3,6 +3,8 @@ package com.major.beauty.ui;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.major.beauty.R;
@@ -14,6 +16,8 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.nav_view)
     BottomNavigationView mNavView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     private DailyFgt mDailyFgt;
     private AnalyzeFgt mAnalyzeFgt;
@@ -26,6 +30,14 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+
+//        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(false);
+
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
         mNavView.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
 
         mNavView.setSelectedItemId(R.id.navigation_home);
