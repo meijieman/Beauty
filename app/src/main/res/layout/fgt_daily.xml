@@ -10,6 +10,25 @@
     android:paddingRight="16dp"
     tools:context=".ui.DailyFgt">
 
+    <!--客户预约列表-->
+    <android.support.design.button.MaterialButton
+        android:id="@+id/mb_daily_appointment_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:paddingLeft="30dp"
+        android:paddingTop="10dp"
+        android:paddingRight="30dp"
+        android:paddingBottom="10dp"
+        android:text="客户预约"
+        android:textAllCaps="false"
+        android:textAppearance="?android:attr/textAppearanceLargeInverse"
+        android:textSize="16sp"
+        app:backgroundTint="@color/design_default_color_primary"
+        app:rippleColor="@color/white" />
+
     <!--客户预约-->
     <android.support.design.button.MaterialButton
         android:id="@+id/mb_daily_confirm"

@@ -53,10 +53,13 @@
             android:name=".ui.SignatureActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.AppointmentActivity"
+            android:name=".ui.ApptActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.CostRecordActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.ApptsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

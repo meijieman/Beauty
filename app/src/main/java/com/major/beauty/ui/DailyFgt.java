@@ -28,17 +28,20 @@ public class DailyFgt extends BaseFragment {
 
     }
 
-    @OnClick({R.id.mb_daily_confirm, R.id.mb_daily_pay, R.id.mb_daily_sales})
+    @OnClick({R.id.mb_daily_confirm, R.id.mb_daily_pay, R.id.mb_daily_sales, R.id.mb_daily_appointment_list})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.mb_daily_confirm:
-                startActivity(new Intent(getContext(), AppointmentActivity.class));
+                startActivity(new Intent(getContext(), ApptActivity.class));
                 break;
             case R.id.mb_daily_pay:
                 startActivity(new Intent(getContext(), PayActivity.class));
                 break;
             case R.id.mb_daily_sales:
                 startActivity(new Intent(getContext(), SalesActivity.class));
+                break;
+            case R.id.mb_daily_appointment_list:
+                skipIntent(ApptsActivity.class);
                 break;
         }
     }
