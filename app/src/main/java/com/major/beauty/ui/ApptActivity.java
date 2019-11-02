@@ -33,13 +33,13 @@ public class ApptActivity extends BaseActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.tie_appt_comment)
-    TextInputEditText mRemark;
-    @BindView(R.id.mb_appointment_time_start)
+    TextInputEditText mComment;
+    @BindView(R.id.mb_appt_time_start)
     MaterialButton mTimeStartBtn;
-    @BindView(R.id.mb_appointment_time_end)
+    @BindView(R.id.mb_appt_time_end)
     MaterialButton mTimeEndBtn;
 
-    @BindView(R.id.tv_appointment_name)
+    @BindView(R.id.tv_appt_name)
     MaterialButton mName;
 
     private Calendar calendar;
@@ -51,7 +51,7 @@ public class ApptActivity extends BaseActivity {
 
     @Override
     protected int getRootView() {
-        return R.layout.act_appts;
+        return R.layout.act_appt;
     }
 
     @Override
@@ -69,10 +69,10 @@ public class ApptActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.mb_appointment_name_select, R.id.mb_appointment_time_start, R.id.mb_appointment_time_end, R.id.mb_appointment_add})
+    @OnClick({R.id.mb_appt_name_select, R.id.mb_appt_time_start, R.id.mb_appt_time_end, R.id.mb_appt_add})
     void onClick(View view) {
         switch (view.getId()) {
-            case R.id.mb_appointment_name_select:
+            case R.id.mb_appt_name_select:
                 // 弹出客户搜索框
                 SearchCustomDialog dialog = new SearchCustomDialog(this);
                 dialog.setResultListener(customer -> {
@@ -81,7 +81,7 @@ public class ApptActivity extends BaseActivity {
                 });
                 dialog.show();
                 break;
-            case R.id.mb_appointment_time_start:
+            case R.id.mb_appt_time_start:
                 TimePickerDialog timePickerDialog = new TimePickerDialog(this, (timePicker, i, i1) -> {
                     calendar.set(Calendar.HOUR_OF_DAY, i);
                     calendar.set(Calendar.MINUTE, i1);
@@ -92,25 +92,25 @@ public class ApptActivity extends BaseActivity {
                 }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
                 timePickerDialog.show();
                 break;
-            case R.id.mb_appointment_time_end:
+            case R.id.mb_appt_time_end:
 
                 break;
-            case R.id.mb_appointment_add:
+            case R.id.mb_appt_add:
                 if (mCustomer == null) {
                     Snackbar.make(view, "请选择需要预约的客户", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
                 KeyboardUtil.hideKeyboard(this, view);
 
-                Appointment appo = new Appointment();
-                appo.setCid(mCustomer.getId());
-                appo.setName(mCustomer.getName());
-                appo.setStartTime(mStartTime);
-                appo.setEndTime(mEndTime);
-                appo.setCreateTime(System.currentTimeMillis());
-                appo.setComment(mRemark.getText().toString());
+                Appointment appt = new Appointment();
+                appt.setCid(mCustomer.getId());
+                appt.setName(mCustomer.getName());
+                appt.setStartTime(mStartTime);
+                appt.setEndTime(mEndTime);
+                appt.setCreateTime(System.currentTimeMillis());
+                appt.setComment(mComment.getText().toString());
 
-                long update = mDao.insertOrUpdate(appo);
+                long update = mDao.insertOrUpdate(appt);
                 LogUtil.i("update " + update);
                 if (update != -1) {
                     Snackbar.make(view, "预约成功", Snackbar.LENGTH_SHORT).show();
