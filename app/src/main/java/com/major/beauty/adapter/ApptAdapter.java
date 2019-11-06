@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.major.beauty.R;
 import com.major.beauty.base.BaseAdapter;
 import com.major.beauty.bean.Appointment;
+import com.major.beauty.util.TimeUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +38,8 @@ public class ApptAdapter extends BaseAdapter<Appointment, ApptAdapter.VH> {
         Appointment appt = mData.get(position);
         holder.name.setText(appt.getName());
         holder.phone.setText(appt.getPhone());
+        holder.start.setText(TimeUtil.format(appt.getStartTime()));
+        holder.end.setText(TimeUtil.format(appt.getEndTime()));
 
         holder.itemView.setOnClickListener(view -> {
             if (mListener != null) {
@@ -59,6 +62,10 @@ public class ApptAdapter extends BaseAdapter<Appointment, ApptAdapter.VH> {
         TextView name;
         @BindView(R.id.tv_appt_phone)
         TextView phone;
+        @BindView(R.id.tv_appt_time_start)
+        TextView start;
+        @BindView(R.id.tv_appt_time_end)
+        TextView end;
 
         VH(View itemView) {
             super(itemView);

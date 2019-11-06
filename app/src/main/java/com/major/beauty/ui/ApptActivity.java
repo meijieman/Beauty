@@ -132,6 +132,7 @@ public class ApptActivity extends BaseActivity {
                 Appointment appt = new Appointment();
                 appt.setCid(mCustomer.getId());
                 appt.setName(mCustomer.getName());
+                appt.setPhone(mCustomer.getPhone());
                 appt.setStartTime(mStartTime);
                 appt.setEndTime(mEndTime);
                 appt.setCreateTime(System.currentTimeMillis());
