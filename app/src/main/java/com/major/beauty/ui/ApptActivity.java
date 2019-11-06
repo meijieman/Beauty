@@ -43,8 +43,8 @@ public class ApptActivity extends BaseActivity {
     @BindView(R.id.mb_appt_time_date)
     MaterialButton mDateBtn;
 
-    @BindView(R.id.tv_appt_name)
-    TextView mName;
+    @BindView(R.id.tiet_customer_info)
+    TextView mCustomerInfo;
 
     private Calendar calendar;
     private ApptDao mDao = new ApptDao();
@@ -73,14 +73,14 @@ public class ApptActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.mb_appt_name_select, R.id.mb_appt_time_start, R.id.mb_appt_time_end, R.id.mb_appt_add, R.id.mb_appt_time_date})
+    @OnClick({R.id.mb_customer_query, R.id.mb_appt_time_start, R.id.mb_appt_time_end, R.id.mb_appt_add, R.id.mb_appt_time_date})
     void onClick(View view) {
         switch (view.getId()) {
-            case R.id.mb_appt_name_select:
+            case R.id.mb_customer_query:
                 // 弹出客户搜索框
                 SearchCustomDialog dialog = new SearchCustomDialog(this);
                 dialog.setResultListener(customer -> {
-                    mName.setText(customer.getName());
+                    mCustomerInfo.setText(customer.getName());
                     mCustomer = customer;
                 });
                 dialog.show();
@@ -142,6 +142,7 @@ public class ApptActivity extends BaseActivity {
                 LogUtil.i("update " + update);
                 if (update != -1) {
                     Snackbar.make(view, "预约成功", Snackbar.LENGTH_SHORT).show();
+                    finish();
                 }
 
                 break;

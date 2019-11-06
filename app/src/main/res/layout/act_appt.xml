@@ -7,63 +7,9 @@
     android:orientation="vertical"
     tools:context=".ui.ApptActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:elevation="0dp">
+    <include layout="@layout/include_app_bar_layout" />
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:minHeight="?attr/actionBarSize"
-            app:layout_collapseMode="pin"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
-    </android.support.design.widget.AppBarLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="10dp"
-        android:text="顾客名称" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:id="@+id/tv_appt_name"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="1"
-            android:hint="点击右方选择顾客"
-            android:textSize="18sp" />
-
-        <android.support.design.button.MaterialButton
-            android:id="@+id/mb_appt_name_select"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:gravity="center"
-            android:paddingLeft="30dp"
-            android:paddingTop="10dp"
-            android:paddingRight="30dp"
-            android:paddingBottom="10dp"
-            android:text="选择"
-            android:textAllCaps="false"
-            android:textAppearance="?android:attr/textAppearanceLargeInverse"
-            android:textSize="16sp"
-            app:backgroundTint="@color/design_default_color_primary"
-            app:rippleColor="@color/white" />
-    </LinearLayout>
+    <include layout="@layout/include_search_customer" />
 
     <TextView
         android:layout_width="wrap_content"

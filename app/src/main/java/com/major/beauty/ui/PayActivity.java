@@ -3,17 +3,17 @@ package com.major.beauty.ui;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AlertDialog;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.major.base.rx.rxtask.RxTask;
-import com.major.base.util.ToastUtil;
 import com.major.beauty.R;
 import com.major.beauty.base.BaseActivity;
 import com.major.beauty.bean.Customer;
 import com.major.beauty.dao.CustomerDao;
+import com.major.beauty.dialog.SearchCustomDialog;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -26,11 +26,13 @@ import butterknife.OnClick;
  */
 public class PayActivity extends BaseActivity {
 
-    @BindView(R.id.tiet_pay)
-    TextInputEditText mPay;
-
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.tiet_customer_info)
+    TextInputEditText mCustomerInfo;
 
     private CustomerDao mCustomerDao = new CustomerDao();
+    private Customer mCustomer;
 
     @Override
     protected int getRootView() {
@@ -39,30 +41,28 @@ public class PayActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
 
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("护理划卡");
+
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
 
-    @OnClick({R.id.mb_pay_query, R.id.mb_pay_confirm})
+    @OnClick({R.id.mb_customer_query, R.id.mb_pay_confirm})
     void onClick(View view) {
         switch (view.getId()) {
-            case R.id.mb_pay_query:
-                String text = mPay.getText().toString().trim();
+            case R.id.mb_customer_query:
+                SearchCustomDialog search = new SearchCustomDialog(this);
+                search.setResultListener(customer -> {
+                    mCustomerInfo.setText(customer.getName());
+                    mCustomer = customer;
+                    // 查询余额
 
-                List<Customer> customers = mCustomerDao.queryByNameOrPhone(text);
-                ToastUtil.showLong("" + customers);
-
-
-                // 弹出单选对话框
-                String[] singleChoiceItems = {"纽约", "洛杉矶", "旧金山", "巴黎", "伦敦"};
-                int itemSelected = 0;
-                new AlertDialog.Builder(this)
-                        .setTitle("单选")
-                        .setSingleChoiceItems(singleChoiceItems, itemSelected, (dialogInterface, i) -> {
-                            dialogInterface.dismiss();
-                            ToastUtil.showShort(singleChoiceItems[i]);
-                        })
-                        .setNegativeButton("cancel", null)
-                        .show();
+                });
+                search.show();
                 break;
             case R.id.mb_pay_confirm:
                 Snackbar snackbar = Snackbar.make(view, "提交成功", Snackbar.LENGTH_SHORT);

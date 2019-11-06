@@ -35,7 +35,7 @@
                 android:id="@+id/tet_search_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="输入客户名称/手机号"
+                android:hint="输入顾客名称/手机号"
                 android:lines="1" />
         </android.support.design.widget.TextInputLayout>
 
