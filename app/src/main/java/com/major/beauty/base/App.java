@@ -3,7 +3,6 @@ package com.major.beauty.base;
 import android.app.Application;
 
 import com.litesuits.orm.LiteOrm;
-import com.litesuits.orm.db.DataBaseConfig;
 import com.major.base.CommonConfig;
 import com.major.base.crash.CrashHandler;
 import com.major.beauty.bean.Avatar;
@@ -28,12 +27,12 @@ public class App extends Application {
         sApp = this;
 
         CrashHandler.getInstance().init(this, "crash", true);
-        DataBaseConfig config = new DataBaseConfig(this, "mei_beauty.db");
-        config.dbVersion = 1;
-//        mLiteOrm = LiteOrm.newSingleInstance(config);
-        // 有级联操作，需要使用这个
-        mLiteOrm = LiteOrm.newCascadeInstance(config);
-        mLiteOrm.setDebugged(true);
+//        DataBaseConfig config = new DataBaseConfig(this, "mei_beauty.db");
+//        config.dbVersion = 1;
+////        mLiteOrm = LiteOrm.newSingleInstance(config);
+//        // 有级联操作，需要使用这个
+//        mLiteOrm = LiteOrm.newCascadeInstance(config);
+//        mLiteOrm.setDebugged(true);
 
         new CommonConfig.Build()
                 .setApplication(this)
@@ -61,5 +60,9 @@ public class App extends Application {
 
     public LiteOrm getLiteOrm(){
         return mLiteOrm;
+    }
+
+    public void setLiteOrm(LiteOrm liteOrm) {
+        mLiteOrm = liteOrm;
     }
 }
