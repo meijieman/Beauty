@@ -13,7 +13,7 @@ import com.major.base.log.LogUtil;
 import com.major.base.rx.rxtask.RxTask;
 import com.major.base.util.CommonUtil;
 import com.major.beauty.R;
-import com.major.beauty.adapter.CustomerAdapter;
+import com.major.beauty.adapter.SearchCustomerAdapter;
 import com.major.beauty.bean.Customer;
 import com.major.beauty.dao.CustomerDao;
 
@@ -32,12 +32,11 @@ public class SearchCustomDialog extends AlertDialog {
 
     @BindView(R.id.tet_search_text)
     TextInputEditText mSearchText;
-
     @BindView(R.id.rv_item)
     RecyclerView mRecyclerView;
 
     private CustomerDao mDao = new CustomerDao();
-    private CustomerAdapter mAdapter;
+    private SearchCustomerAdapter mAdapter;
 
     public SearchCustomDialog(Context context) {
         super(context);
@@ -55,7 +54,7 @@ public class SearchCustomDialog extends AlertDialog {
         params.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND; // 就是这个属性导致不能获取焦点,默认的是FLAG_NOT_FOCUSABLE,故名思义不能获取输入焦点,
         getWindow().setAttributes(params);
 
-        mAdapter = new CustomerAdapter(getContext());
+        mAdapter = new SearchCustomerAdapter(getContext());
         mRecyclerView.setAdapter(mAdapter);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
@@ -88,15 +87,13 @@ public class SearchCustomDialog extends AlertDialog {
     void onClick(View v) {
         switch (v.getId()) {
             case R.id.mb_dialog_commit:
-                String text = mSearchText.getText().toString();
-                if (CommonUtil.isEmpty(text)) {
-                    mSearchText.setError("请输入搜索内容");
-                    return;
-                }
-
                 RxTask.doTask(new RxTask.Task<List<Customer>>() {
                     @Override
                     public List<Customer> onIOThread() {
+                        String text = mSearchText.getText().toString();
+                        if (CommonUtil.isEmpty(text)) {
+                            return mDao.query();
+                        }
                         return mDao.queryByNameOrPhone(text);
                     }
 
@@ -104,9 +101,9 @@ public class SearchCustomDialog extends AlertDialog {
                     public void onUIThread(List<Customer> customers) {
                         if (CommonUtil.isEmpty(customers)) {
                             LogUtil.d("customers is empty.");
-                        } else {
-                            mAdapter.setData(customers);
+                            mSearchText.setError("搜索结果为空", null);
                         }
+                        mAdapter.setData(customers);
                     }
                 });
                 break;

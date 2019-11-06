@@ -5,8 +5,10 @@ import android.support.design.button.MaterialButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.major.base.log.LogUtil;
 import com.major.base.util.KeyboardUtil;
@@ -38,9 +40,11 @@ public class ApptActivity extends BaseActivity {
     MaterialButton mTimeStartBtn;
     @BindView(R.id.mb_appt_time_end)
     MaterialButton mTimeEndBtn;
+    @BindView(R.id.mb_appt_time_date)
+    MaterialButton mDateBtn;
 
     @BindView(R.id.tv_appt_name)
-    MaterialButton mName;
+    TextView mName;
 
     private Calendar calendar;
     private ApptDao mDao = new ApptDao();
@@ -61,7 +65,7 @@ public class ApptActivity extends BaseActivity {
 
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("预约");
+        actionBar.setTitle("客户预约");
 
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
@@ -69,7 +73,7 @@ public class ApptActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.mb_appt_name_select, R.id.mb_appt_time_start, R.id.mb_appt_time_end, R.id.mb_appt_add})
+    @OnClick({R.id.mb_appt_name_select, R.id.mb_appt_time_start, R.id.mb_appt_time_end, R.id.mb_appt_add, R.id.mb_appt_time_date})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.mb_appt_name_select:
@@ -81,8 +85,23 @@ public class ApptActivity extends BaseActivity {
                 });
                 dialog.show();
                 break;
+            case R.id.mb_appt_time_date:
+                // 选择日期
+
+                String[] dates = {"今天", "明天", "后天", "2019/11/9"};
+                AlertDialog dialog2 = new AlertDialog.Builder(this)
+                        .setTitle("选择项目")
+                        .setSingleChoiceItems(dates, 0, (dialogInterface, i) -> {
+
+                            mDateBtn.setText(dates[i]);
+                            dialogInterface.dismiss();
+                        })
+                        .create();
+                dialog2.setCanceledOnTouchOutside(false);
+                dialog2.show();
+                break;
             case R.id.mb_appt_time_start:
-                TimePickerDialog timePickerDialog = new TimePickerDialog(this, (timePicker, i, i1) -> {
+                TimePickerDialog tpd = new TimePickerDialog(this, (timePicker, i, i1) -> {
                     calendar.set(Calendar.HOUR_OF_DAY, i);
                     calendar.set(Calendar.MINUTE, i1);
                     String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(calendar.getTime());
@@ -90,10 +109,18 @@ public class ApptActivity extends BaseActivity {
                     mStartTime = calendar.getTimeInMillis();
 
                 }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
-                timePickerDialog.show();
+                tpd.show();
                 break;
             case R.id.mb_appt_time_end:
+                TimePickerDialog tpdEnd = new TimePickerDialog(this, (timePicker, i, i1) -> {
+                    calendar.set(Calendar.HOUR_OF_DAY, i);
+                    calendar.set(Calendar.MINUTE, i1);
+                    String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(calendar.getTime());
+                    mTimeEndBtn.setText(time);
+                    mEndTime = calendar.getTimeInMillis();
 
+                }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
+                tpdEnd.show();
                 break;
             case R.id.mb_appt_add:
                 if (mCustomer == null) {

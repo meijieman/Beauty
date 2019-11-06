@@ -7,36 +7,51 @@
     android:orientation="vertical"
     tools:context=".ui.ApptActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:minHeight="?attr/actionBarSize"
-        app:layout_collapseMode="pin"
-        app:layout_scrollFlags="scroll|enterAlways"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:elevation="0dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_collapseMode="pin"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+    </android.support.design.widget.AppBarLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="10dp"
         android:text="顾客名称" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/tv_appt_name"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:hint="点击右方选择顾客"
+            android:textSize="18sp" />
 
         <android.support.design.button.MaterialButton
             android:id="@+id/mb_appt_name_select"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:gravity="center"
             android:paddingLeft="30dp"
             android:paddingTop="10dp"
@@ -53,6 +68,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
         android:text="时间段" />
 
     <LinearLayout
@@ -61,12 +77,34 @@
         android:orientation="horizontal">
 
         <android.support.design.button.MaterialButton
+            android:id="@+id/mb_appt_time_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:text="选择日期"
+            android:textAllCaps="false"
+            android:textAppearance="?android:attr/textAppearanceLargeInverse"
+            android:textSize="16sp"
+            app:backgroundTint="@color/design_default_color_primary"
+            app:rippleColor="@color/white" />
+
+        <android.support.design.button.MaterialButton
             android:id="@+id/mb_appt_time_start"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:gravity="center"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             android:text="开始时间"
             android:textAllCaps="false"
             android:textAppearance="?android:attr/textAppearanceLargeInverse"
@@ -79,8 +117,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="16dp"
             android:layout_weight="1"
             android:gravity="center"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             android:text="结束时间"
             android:textAllCaps="false"
             android:textAppearance="?android:attr/textAppearanceLargeInverse"
@@ -93,6 +135,10 @@
         android:id="@+id/til_daily_content_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:paddingTop="20dp"
         app:hintTextAppearance="@style/MyStyle">
 
@@ -101,7 +147,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="备注"
-            android:maxLines="5"
+            android:lines="3"
             android:minWidth="160dp"
             android:textSize="14sp" />
     </android.support.design.widget.TextInputLayout>
@@ -111,6 +157,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:paddingLeft="30dp"
         android:paddingTop="10dp"
