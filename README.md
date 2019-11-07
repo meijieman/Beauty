@@ -5,6 +5,11 @@ Material design
 
 
 ## 参考资料
+* ui 设计
+http://www.uisdc.com/design-better-forms#
+http://www.uisdc.com/ui-form-design-beautiful
+http://www.sj33.cn/digital/uisj/201712/48286_2.html
+http://www.sj33.cn/digital/uisj/201712/48272.html
 
 * 参考界面
 https://www.uisdc.com/comprehensive-material-design-note
